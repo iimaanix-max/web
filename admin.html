@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Imaanix Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--green:#103d2b;--green2:#09291d;--gold:#c9973f;--gold-light:#f4e3bb;--paper:#f6f4ef;--white:#fff;--ink:#17291f;--muted:#748078;--line:#e6e8e2;--red:#b83d3d;--shadow:0 10px 32px rgba(21,39,28,.07)}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-size:14px;line-height:1.5}button,input,textarea,select{font:inherit}button{cursor:pointer}
+.preview-banner{padding:10px 18px;background:#fff3d5;border-bottom:1px solid #ead7a8;color:#604817;text-align:center;font-size:12px}.preview-banner b{margin-right:5px}
+.preview-banner.connected{background:#eef6ef;border-color:#cfe2d1;color:#326443}
+.app[hidden],.auth-gate[hidden]{display:none!important}
+.auth-gate{min-height:calc(100vh - 40px);display:grid;place-items:center;padding:28px 16px}
+.auth-card{width:min(100%,420px);padding:34px;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);display:grid;gap:15px}
+.auth-card .brand-mark{width:44px;height:48px;margin:0 auto}
+.auth-card .eyebrow{text-align:center}
+.auth-card h1{text-align:center;color:var(--green);font:600 23px Outfit,sans-serif;margin:0}
+.auth-card>p{font-size:12px;color:var(--muted);text-align:center;margin:0}
+.auth-card .field{margin-top:1px}
+.auth-card .btn{width:100%;padding:12px}
+.auth-reset{border:0;background:none;color:var(--green);font-size:12px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.auth-card .auth-message{min-height:18px;color:#76591f}
+.auth-card .help{font-size:10px;line-height:1.6;text-align:center;margin:0}
+.app{min-height:calc(100vh - 40px);display:grid;grid-template-columns:250px minmax(0,1fr)}
+.sidebar{background:var(--green2);color:#d7e0d9;padding:24px 16px;display:flex;flex-direction:column;gap:26px}
+.brand{display:flex;align-items:center;gap:11px;padding:0 10px;color:#fff;font:600 22px Outfit,sans-serif}.brand-mark{width:33px;height:36px;color:var(--gold);display:grid;place-items:center}.brand-mark svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2.7;stroke-linecap:round}
+.workspace{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#8fa397;padding:0 11px;margin-bottom:-16px}
+.nav{display:grid;gap:5px}.nav button{display:flex;align-items:center;gap:12px;width:100%;padding:11px 12px;text-align:left;color:#bdc9c1;background:none;border:0;border-radius:10px;transition:.18s}.nav button:hover,.nav button.active{background:#174b35;color:#fff}.nav button.active{box-shadow:inset 3px 0 var(--gold)}.nav .icon{width:18px;text-align:center;color:var(--gold-light);font-size:16px}
+.side-foot{margin-top:auto;border-top:1px solid rgba(255,255,255,.12);padding:16px 10px 4px;color:#91a197;font-size:11px}.site-link{color:var(--gold-light);display:inline-block;margin-top:9px}
+.main{min-width:0;padding:26px clamp(18px,3vw,42px) 50px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:28px}.topbar h1{margin:0;font:600 25px Outfit,sans-serif;color:var(--green)}.top-actions{display:flex;align-items:center;gap:10px}.mode{display:inline-flex;gap:7px;align-items:center;border:1px solid #ead7a8;background:#fff8e8;color:#77591d;border-radius:999px;padding:7px 11px;font-size:11px;font-weight:600}.mode i{width:7px;height:7px;border-radius:50%;background:#d59a31}
+.view{display:none}.view.active{display:block}.eyebrow{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);font-weight:700}.intro{margin:0 0 22px;color:var(--muted)}.intro strong{color:var(--ink)}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:22px}.metric,.panel,.editor{background:var(--white);border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow)}.metric{padding:18px}.metric-label{font-size:12px;color:var(--muted)}.metric-value{margin-top:8px;color:var(--green);font:600 26px Outfit,sans-serif}.metric-note{font-size:11px;color:#89938c;margin-top:3px}
+.grid-two{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}.panel{padding:20px}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}.panel h2,.editor h2{font:600 16px Outfit,sans-serif;color:var(--green);margin:0}.panel p{color:var(--muted);margin:6px 0 0;font-size:12px}.status-row{display:flex;align-items:center;gap:10px;padding:13px 0;border-top:1px solid var(--line)}.status-row:first-of-type{border-top:0}.status-dot{width:8px;height:8px;flex:none;border-radius:50%;background:#d59a31}.status-dot.green{background:#4d9b6e}.status-row span:last-child{margin-left:auto;color:var(--muted);font-size:11px;text-align:right}
+.notice{padding:14px 16px;border-radius:12px;background:#fff8e8;border:1px solid #efdfbb;color:#71571f;font-size:12px;line-height:1.65}.notice strong{color:#513c10}.notice.danger{background:#fff3f1;border-color:#f1d1ca;color:#7a302a}.notice.success{background:#eff8f1;border-color:#d0e7d4;color:#306842}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:9px;padding:10px 14px;background:var(--green);color:#fff;font-weight:600;font-size:12px;transition:.18s}.btn:hover{background:#18563b;transform:translateY(-1px)}.btn.secondary{background:#f0f2ee;color:var(--green)}.btn.secondary:hover{background:#e4e9e2}.btn.danger{background:#fff0ee;color:var(--red)}.btn.danger:hover{background:#ffe2de}.btn.small{padding:7px 10px;font-size:11px}.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:14px 0}.toolbar p{margin:0;color:var(--muted);font-size:12px}
+.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:550px}.table th,.table td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;font-size:12px}.table th{color:var(--muted);font-weight:600}.table td:first-child{font-weight:600;color:var(--green)}.badge{display:inline-block;border-radius:999px;background:#edf5ed;color:#397349;padding:4px 8px;font-size:10px;font-weight:700}.badge.soon{background:#fff5df;color:#916c22}
+.editor{padding:21px;margin-top:16px}.editor[hidden]{display:none}.editor-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:11px;font-weight:600;color:#526258}.field input,.field select,.field textarea{width:100%;border:1px solid #dfe4dc;border-radius:9px;padding:10px 11px;background:#fff;color:var(--ink);outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,151,63,.12)}.field textarea{min-height:100px;resize:vertical}.help{font-size:10px;color:var(--muted)}.form-actions{display:flex;gap:8px;margin-top:15px}
+.item-list{display:grid;gap:10px}.item{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:#fff}.item-thumb{width:58px;height:46px;flex:none;border-radius:8px;object-fit:cover;background:#eef0eb;display:grid;place-items:center;color:#91a095}.item-info{min-width:0;flex:1}.item-info b{display:block;color:var(--green);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.item-info small{color:var(--muted);font-size:10px}.item-actions{display:flex;gap:6px;flex:none}
+.empty{padding:26px 15px;text-align:center;color:var(--muted);border:1px dashed #d7ddd5;border-radius:12px;font-size:12px}
+.inbox-placeholder{padding:38px 20px;text-align:center}.inbox-icon{margin:0 auto 12px;width:46px;height:46px;border-radius:50%;background:#f3ead6;color:var(--gold);display:grid;place-items:center;font-size:20px}.inbox-placeholder h2{font:600 18px Outfit,sans-serif;color:var(--green);margin:0 0 8px}.inbox-placeholder p{max-width:490px;margin:0 auto 15px;color:var(--muted);font-size:12px;line-height:1.7}
+.social-row{display:grid;grid-template-columns:130px 1fr;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}.social-name{font-weight:600;color:var(--green)}.social-name span{display:inline-grid;width:25px;color:var(--gold);font-size:17px}.social-row input{width:100%;border:1px solid #dfe4dc;border-radius:9px;padding:10px 11px;background:#fff;color:var(--ink);outline:none}.social-row input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,151,63,.12)}
+.settings-list{display:grid;gap:10px}.setting{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid var(--line);border-radius:12px}.setting .check{color:#bd8c33;font-size:18px}.setting b{font-size:12px;color:var(--green)}.setting p{margin:3px 0 0;font-size:11px;color:var(--muted)}
+.toast{position:fixed;right:22px;bottom:22px;z-index:10;padding:12px 16px;background:#173d2d;color:white;border-radius:10px;box-shadow:var(--shadow);opacity:0;transform:translateY(12px);pointer-events:none;transition:.2s}.toast.show{opacity:1;transform:none}
+@media(max-width:1100px){.app{grid-template-columns:210px 1fr}.cards{grid-template-columns:repeat(2,1fr)}.grid-two{grid-template-columns:1fr}}
+@media(max-width:700px){.app{grid-template-columns:1fr}.sidebar{padding:12px;gap:10px}.brand{padding:4px 7px}.workspace,.side-foot{display:none}.nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}.nav button{justify-content:center;padding:9px 5px;font-size:10px;gap:5px;flex-direction:column}.nav .icon{font-size:15px}.main{padding:19px 14px 35px}.topbar{align-items:flex-start;flex-direction:column;margin-bottom:18px}.topbar h1{font-size:22px}.cards{gap:9px}.metric{padding:13px}.metric-value{font-size:22px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:1}.social-row{grid-template-columns:95px 1fr}.item{align-items:flex-start}.item-actions{flex-direction:column}.preview-banner{font-size:10px}}
+</style>
+</head>
+<body>
+<div class="preview-banner" id="admin-status-banner"><b>Firebase admin:</b> Checking secure connection…</div>
+<section class="auth-gate" id="auth-gate">
+  <form class="auth-card" id="admin-login-form">
+    <div class="brand-mark"><svg viewBox="0 0 40 44"><path d="M20 3v4M17 5h6M5 41V24Q5 14 20 8Q35 14 35 24v17M13 41V26Q13 20 20 17Q27 20 27 26v15"/></svg></div>
+    <div class="eyebrow">SECURE WORKSPACE</div><h1>Sign in to Imaanix Admin</h1>
+    <p>Use the Firebase Authentication account authorized for this workspace. New accounts cannot be created here.</p>
+    <div class="field"><label for="admin-email">Admin email</label><input id="admin-email" type="email" value="iimaanix@gmail.com" autocomplete="username" readonly></div>
+    <div class="field"><label for="admin-password">Password</label><input id="admin-password" type="password" autocomplete="current-password" required></div>
+    <button class="btn" type="submit" id="admin-signin">Sign in securely →</button>
+    <button class="auth-reset" type="button" id="admin-reset">Send password reset email</button>
+    <p class="auth-message" id="auth-message" role="status" aria-live="polite">Connecting to Firebase…</p>
+    <p class="help">Open this page from your HTTPS website or a local HTTP server. Firebase Authentication cannot sign in from a <code>file://</code> page.</p>
+  </form>
+</section>
+<div class="app" id="admin-app" hidden>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark"><svg viewBox="0 0 40 44"><path d="M20 3v4M17 5h6M5 41V24Q5 14 20 8Q35 14 35 24v17M13 41V26Q13 20 20 17Q27 20 27 26v15"/></svg></span>imaanix</div>
+    <div class="workspace">Workspace</div>
+    <nav class="nav" aria-label="Admin navigation">
+      <button class="active" data-view="overview"><span class="icon">⌂</span>Overview</button>
+      <button data-view="content"><span class="icon">▤</span>Website content</button>
+      <button data-view="inquiries"><span class="icon">✉</span>Inquiries</button>
+      <button data-view="products"><span class="icon">▣</span>Products</button>
+      <button data-view="insights"><span class="icon">▧</span>Insights</button>
+      <button data-view="careers"><span class="icon">♧</span>Careers</button>
+      <button data-view="socials"><span class="icon">◎</span>Social links</button>
+      <button data-view="security"><span class="icon">◇</span>Security &amp; setup</button>
+    </nav>
+    <div class="side-foot">Imaanix website manager<br><a class="site-link" href="index.html">← Open website</a></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><h1 id="page-title">Overview</h1><div class="top-actions"><span class="mode"><i></i><span id="admin-session-label">Preview workspace</span></span><button class="btn secondary small" id="export-data" type="button">Export draft</button><button class="btn small" id="publish-data" type="button">Publish to site</button><button class="btn secondary small" id="admin-signout" type="button">Sign out</button></div></header>
+
+    <section class="view active" id="view-overview">
+      <p class="intro">Manage the Imaanix website from one place. <strong>Save edits as drafts, then publish them to the live site.</strong></p>
+      <div class="cards" id="overview-metrics"></div>
+      <div class="grid-two">
+        <div class="panel"><div class="panel-head"><h2>Website sections</h2><button class="btn secondary small" data-jump="content">Edit content</button></div>
+          <div class="status-row"><span class="status-dot green"></span><b>Products</b><span id="product-count">4 listed</span></div>
+          <div class="status-row"><span class="status-dot green"></span><b>Insights</b><span id="insight-count">6 published</span></div>
+          <div class="status-row"><span class="status-dot"></span><b>Careers</b><span id="career-count">No openings</span></div>
+          <div class="status-row"><span class="status-dot"></span><b>Contact inbox</b><span id="inquiries-count">Loading…</span></div>
+        </div>
+        <div class="panel"><div class="panel-head"><h2>Before publishing</h2></div>
+          <div class="notice"><strong>Signed-in admin workspace.</strong> Publishing and inquiries use your Firebase account and server-side Security Rules.</div>
+          <p style="margin-top:14px">Draft changes stay in this browser until you choose Publish to site.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-content">
+      <p class="intro">Edit the public homepage copy and figures. Values are saved as a local draft in this preview.</p>
+      <form class="panel" id="site-form">
+        <div class="panel-head"><h2>Homepage copy</h2></div>
+        <div class="form-grid">
+          <div class="field full"><label for="hero-copy">Hero description</label><textarea id="hero-copy" name="heroCopy"></textarea></div>
+          <div class="field"><label for="company-email">Contact email</label><input id="company-email" name="email" type="email"></div>
+          <div class="field"><label for="cta-title">Contact call-to-action</label><input id="cta-title" name="ctaTitle"></div>
+          <div class="field full"><label for="cta-copy">Contact description</label><textarea id="cta-copy" name="ctaCopy"></textarea></div>
+        </div>
+        <div class="panel-head" style="margin-top:22px"><h2>Public impact figures</h2></div>
+        <div class="form-grid">
+          <div class="field"><label for="metric-downloads">Application downloads</label><input id="metric-downloads" name="downloads"></div>
+          <div class="field"><label for="metric-users">Daily active users</label><input id="metric-users" name="users"></div>
+          <div class="field"><label for="metric-countries">Countries reached</label><input id="metric-countries" name="countries"></div>
+        </div>
+        <div class="form-actions"><button class="btn" type="submit">Save local draft</button><button class="btn secondary" type="reset">Reset form</button></div>
+      </form>
+    </section>
+
+    <section class="view" id="view-inquiries">
+      <p class="intro">Messages submitted through the website appear here. Only the authorized admin account can read them.</p>
+      <div class="item-list" id="inquiries-list"><div class="empty">Sign in to load the inbox.</div></div>
+    </section>
+
+    <section class="view" id="view-products">
+      <p class="intro">Add, edit, or remove product cards. Product drafts are saved in this browser only.</p>
+      <div class="toolbar"><p id="products-summary">4 products</p><button class="btn" id="add-product" type="button">＋ Add product</button></div>
+      <div class="item-list" id="products-list"></div>
+      <form class="editor" id="product-editor" hidden>
+        <div class="editor-head"><h2 id="product-form-title">Add product</h2><button class="btn secondary small" type="button" data-cancel="product-editor">Close</button></div>
+        <input type="hidden" name="id">
+        <div class="form-grid">
+          <div class="field"><label>Product name</label><input name="name" required></div>
+          <div class="field"><label>Status</label><select name="status"><option>Live</option><option>Coming soon</option></select></div>
+          <div class="field full"><label>Short description</label><textarea name="description" required></textarea></div>
+          <div class="field"><label>Image URL or asset path</label><input name="image" type="text" inputmode="url" placeholder="https://…"></div>
+          <div class="field"><label>Or choose an image</label><input name="imageFile" type="file" accept="image/png,image/jpeg,image/webp"><span class="help">PNG, JPEG, or WEBP; max 300 KB per image. Uploaded to Firebase Storage when you publish.</span></div>
+        </div>
+        <div class="form-actions"><button class="btn" type="submit">Save product draft</button><button class="btn secondary" type="button" data-cancel="product-editor">Cancel</button></div>
+      </form>
+    </section>
+
+    <section class="view" id="view-insights">
+      <p class="intro">Manage the six current article drafts, including their title, summary, story, category, and cover image reference.</p>
+      <div class="toolbar"><p id="insights-summary">6 insights</p><button class="btn" id="add-insight" type="button">＋ Add insight</button></div>
+      <div class="item-list" id="insights-list"></div>
+      <form class="editor" id="insight-editor" hidden>
+        <div class="editor-head"><h2 id="insight-form-title">Add insight</h2><button class="btn secondary small" type="button" data-cancel="insight-editor">Close</button></div>
+        <input type="hidden" name="id">
+        <div class="form-grid">
+          <div class="field"><label>Post title</label><input name="title" required></div>
+          <div class="field"><label>Category</label><input name="category" required placeholder="Faith &amp; reflection"></div>
+          <div class="field full"><label>Short summary</label><textarea name="summary" required></textarea></div>
+          <div class="field full"><label>Article content</label><textarea name="body" required style="min-height:180px" placeholder="Write each paragraph on a new line"></textarea></div>
+          <div class="field"><label>Reading time</label><input name="time" placeholder="4 min read"></div>
+          <div class="field"><label>Cover image URL or asset path</label><input name="image" type="text" inputmode="url" placeholder="https://…"></div>
+          <div class="field"><label>Or choose a cover image</label><input name="imageFile" type="file" accept="image/png,image/jpeg,image/webp"><span class="help">PNG, JPEG, or WEBP; max 300 KB per image. Uploaded to Firebase Storage when you publish.</span></div>
+        </div>
+        <div class="form-actions"><button class="btn" type="submit">Save insight draft</button><button class="btn secondary" type="button" data-cancel="insight-editor">Cancel</button></div>
+      </form>
+    </section>
+
+    <section class="view" id="view-careers">
+      <p class="intro">Openings added here will be presented as role cards on the Careers screen. With no open roles, the website shows its empty-state message.</p>
+      <div class="toolbar"><p id="careers-summary">No openings</p><button class="btn" id="add-career" type="button">＋ Add opening</button></div>
+      <div class="item-list" id="careers-list"></div>
+      <form class="editor" id="career-editor" hidden>
+        <div class="editor-head"><h2 id="career-form-title">Add opening</h2><button class="btn secondary small" type="button" data-cancel="career-editor">Close</button></div>
+        <input type="hidden" name="id">
+        <div class="form-grid">
+          <div class="field"><label>Role title</label><input name="title" required></div>
+          <div class="field"><label>Team</label><input name="team" required placeholder="Product, Engineering…"></div>
+          <div class="field"><label>Work type</label><select name="type"><option>Full-time</option><option>Part-time</option><option>Contract</option><option>Internship</option></select></div>
+          <div class="field"><label>Location</label><input name="location" required placeholder="Remote, city…"></div>
+          <div class="field full"><label>Role summary</label><textarea name="description" required></textarea></div>
+          <div class="field full"><label>Application link</label><input name="applyUrl" type="url" required placeholder="https://…"></div>
+        </div>
+        <div class="form-actions"><button class="btn" type="submit">Save opening draft</button><button class="btn secondary" type="button" data-cancel="career-editor">Cancel</button></div>
+      </form>
+    </section>
+
+    <section class="view" id="view-socials">
+      <p class="intro">Add profile URLs here. Once connected, each website social button will send visitors directly to its profile.</p>
+      <form class="panel" id="social-form">
+        <div class="social-row"><div class="social-name"><span>𝕏</span>X</div><input name="x" type="url" placeholder="https://x.com/yourprofile"></div>
+        <div class="social-row"><div class="social-name"><span>◎</span>Instagram</div><input name="instagram" type="url" placeholder="https://instagram.com/yourprofile"></div>
+        <div class="social-row"><div class="social-name"><span>f</span>Facebook</div><input name="facebook" type="url" placeholder="https://facebook.com/yourpage"></div>
+        <div class="social-row"><div class="social-name"><span>in</span>LinkedIn</div><input name="linkedin" type="url" placeholder="https://linkedin.com/company/yourcompany"></div>
+        <div class="form-actions"><button class="btn" type="submit">Save social drafts</button></div>
+      </form>
+    </section>
+
+    <section class="view" id="view-security">
+      <p class="intro">This workspace signs in through Firebase Authentication; Firebase Security Rules control every database and image request.</p>
+      <div class="notice" style="margin-bottom:16px"><strong>Admin access is protected by Firebase Authentication and database rules.</strong> Keep email verification enabled and do not share your password.</div>
+      <div class="panel"><div class="panel-head"><h2>Firebase connection checklist</h2><span class="badge soon">Not connected</span></div>
+        <div class="settings-list">
+          <div class="setting"><span class="check">01</span><div><b>Firebase Authentication</b><p>Enable admin sign-in; allow access only to your approved account.</p></div></div>
+          <div class="setting"><span class="check">02</span><div><b>Realtime Database rules</b><p>Public content is readable; publishing and inbox reads require the verified admin email. Public visitors can only create validated inquiry records.</p></div></div>
+          <div class="setting"><span class="check">03</span><div><b>Cloud Storage rules</b><p>Restrict image uploads by admin identity, file type, and file size.</p></div></div>
+          <div class="setting"><span class="check">04</span><div><b>Inquiry inbox</b><p>Messages are stored in Realtime Database; reads and moderation are restricted to the verified admin account.</p></div></div>
+          <div class="setting"><span class="check">05</span><div><b>Publishing &amp; audit trail</b><p>Separate draft from published content and record who changed it and when.</p></div></div>
+        </div>
+        <div class="notice" style="margin-top:18px">Deploy <code>database.rules.json</code> and <code>storage.rules</code> before publishing. Enable App Check before launch to reduce automated form abuse. Never put a service-account key in this website.</div>
+      </div>
+      <div class="panel" style="margin-top:16px"><div class="panel-head"><h2>Preview draft tools</h2></div><p>Export or import a JSON snapshot of this browser’s local draft. This is for interface review only; it does not publish website changes.</p><div class="form-actions"><button class="btn secondary" id="export-data-2" type="button">Export draft JSON</button><label class="btn secondary" for="import-file">Import draft JSON</label><input id="import-file" type="file" accept="application/json" hidden></div></div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+const key='imaanix-admin-preview-v1';
+const defaults={site:{heroCopy:'Imaanix is a technology company creating a growing suite of purposeful Islamic apps—designed to make everyday life simpler, more connected, and more meaningful.',email:'contact@imaanix.com',ctaTitle:'Let’s build something meaningful together.',ctaCopy:'Partner with us to create innovative Islamic apps for a more connected world.',downloads:'—',users:'—',countries:'—'},products:[{id:'p1',name:'Digital Tasbih',status:'Live',description:'Count your Tasbih with ease and devotion.',image:''},{id:'p2',name:'Quran Kareem',status:'Coming soon',description:'Read, listen and explore the Holy Quran.',image:''},{id:'p3',name:'Dua',status:'Coming soon',description:'Discover beautiful duas for every moment.',image:''},{id:'p4',name:'Prayer Times',status:'Coming soon',description:'Get accurate prayer times anywhere.',image:''}],insights:[{id:'i1',title:'A Gentle Way to Build a Daily Dhikr Habit',category:'Faith & reflection',summary:'A steady routine can begin with one small moment that fits naturally into your day.',time:'4 min read',image:'',body:''},{id:'i2',title:'What Makes an Islamic App Feel Thoughtful?',category:'Product design',summary:'Good design starts by understanding the real moments, needs, and boundaries of the people using a product.',time:'5 min read',image:'',body:''},{id:'i3',title:'Making Prayer Time Tools Work for Your Day',category:'Everyday tools',summary:'A few thoughtful settings can make prayer time information easier to use without adding noise.',time:'4 min read',image:'',body:''},{id:'i4',title:'Using a Digital Tasbih with More Intention',category:'Digital Tasbih',summary:'A counter can keep your place; a simple pause can help keep your attention with it.',time:'3 min read',image:'',body:''},{id:'i5',title:'Trust Begins with the Small Choices in an App',category:'Trust & technology',summary:'Privacy, clear controls, and honest explanations are part of a good product experience.',time:'5 min read',image:'',body:''},{id:'i6',title:'One Vision, Many Useful Apps',category:'Building Imaanix',summary:'A family of apps can serve different needs while sharing the same care and purpose.',time:'4 min read',image:'',body:''}],careers:[],socials:{x:'',instagram:'',facebook:'',linkedin:''}};
+let state;
+const defaultBodies=[
+  'A meaningful routine does not need to begin with a big goal. Choose a quiet moment that already belongs to your day: after waking, during a short break, or before the evening settles in. A small, repeatable pause is easier to return to than a perfect routine that only works on ideal days.\n\nKeep the moment simple. Put distractions aside, take a breath, and give your attention to the words you are reciting. A counter can help you keep track, but the number does not need to become the point of the practice. Let the tool support your focus rather than set its pace.\n\nIf a day gets busy, begin again when you can. The aim is a habit that feels calm and personal, not another task to feel behind on.',
+  'An app can be polished and still feel wrong if it ignores the context in which people use it. Thoughtful Islamic app design begins with listening: what is someone trying to do, when do they need help, and what should remain quiet and unobtrusive?\n\nClarity matters. Important actions should be easy to find, language should be plain, and reminders should respect a person’s settings and attention. Readable type, strong contrast, and accessible controls help make an app welcoming to more people.\n\nCare also means treating trust as part of the experience. Explain permissions, avoid asking for information without a reason, and make useful features easy to reach without turning every moment into a prompt.',
+  'Prayer time tools are most useful when they fit the way you plan your day. Start by choosing the correct location and reviewing the calculation settings available in the app. If you follow a local mosque or community timetable, compare the displayed times with that trusted schedule.\n\nNotifications are a personal choice. A short reminder at a time that works for you may help; repeated alerts can become background noise. Pick only the reminders you want, and adjust them as your routine changes. A useful app should make these choices easy to revisit.\n\nTreat a digital schedule as a practical aid, not a substitute for local guidance when timing details matter. With clear settings and a little personalization, prayer time information can stay close at hand without taking over your screen.',
+  'A digital tasbih is a simple tool: it helps you keep count when you do not have prayer beads with you. Before you begin, take a moment to decide what you want this pause to be. A clear intention can make a small interaction feel less like tapping through a screen.\n\nUse the counter at a comfortable pace. If you lose your place, restart without frustration; the app is there to assist, not to grade your practice. You can also silence notifications or set the phone aside between sessions so the screen does not pull your attention elsewhere.\n\nTechnology works best here when it stays in the background. Let the counter handle the counting, then give your focus to the moment itself.',
+  'Trust is built through small, visible choices. People should be able to understand what information an app asks for, why it is needed, and what happens if they say no. Clear explanations make those choices part of the product experience rather than a surprise hidden in a setup flow.\n\nGood privacy design starts with restraint: collect only what a feature needs, explain optional permissions in plain language, and make settings easy to find later. If an app includes analytics or advertising tools, describe them clearly so people can make informed choices.\n\nWhen a product treats people’s attention and information with care, it gives them a stronger reason to keep using it.',
+  'A growing app portfolio is strongest when each product has a clear reason to exist. One app might help someone keep track of a daily practice; another might make useful information easier to find. The shared idea is not to put everything in one place, but to make each experience considered and easy to use.\n\nFor people using several products from the same company, consistency helps. Familiar language, clear navigation, and a reliable level of care make it easier to move between apps without relearning everything. At the same time, each app should be shaped around its own purpose.\n\nThat is the direction for Imaanix: a family of useful Islamic apps, each built around a real everyday need and connected by a commitment to thoughtful digital experiences.'
+];
+try{state=JSON.parse(localStorage.getItem(key))||structuredClone(defaults)}catch(e){state=JSON.parse(JSON.stringify(defaults))}
+state.insights.forEach((post,index)=>{if(!post.body||!post.body.length)post.body=defaultBodies[index]||'';if(Array.isArray(post.body))post.body=post.body.join('\n\n')});
+function save(){try{localStorage.setItem(key,JSON.stringify(state));render();toast('Local draft saved in this browser')}catch(e){render();toast('Browser draft storage is full. Export or remove large images.') }}
+function esc(value){return String(value||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function safeUrl(value){return /^(https?:\/\/|\/|data:image\/(png|jpeg|webp);base64,)/i.test(value||'')?value:''}
+function toast(message){const el=document.getElementById('toast');el.textContent=message;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600)}
+const titles={overview:'Overview',content:'Website content',inquiries:'Contact inquiries',products:'Products',insights:'Insights',careers:'Careers',socials:'Social links',security:'Security & setup'};
+document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));button.classList.add('active');document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById('view-'+button.dataset.view).classList.add('active');document.getElementById('page-title').textContent=titles[button.dataset.view]}));
+document.querySelectorAll('[data-jump]').forEach(button=>button.addEventListener('click',()=>document.querySelector('[data-view="'+button.dataset.jump+'"]').click()));
+function fillForm(form,obj){Object.keys(obj).forEach(name=>{if(form.elements[name])form.elements[name].value=Array.isArray(obj[name])?obj[name].join('\n\n'):(obj[name]||'')})}
+function render(){
+ document.getElementById('overview-metrics').innerHTML=[['Application downloads',state.site.downloads,'Website display figure'],['Daily active users',state.site.users,'Website display figure'],['Countries reached',state.site.countries,'Website display figure'],['Open inquiries','—','Firebase connection needed']].map(x=>'<div class="metric"><div class="metric-label">'+x[0]+'</div><div class="metric-value">'+esc(x[1])+'</div><div class="metric-note">'+x[2]+'</div></div>').join('');
+ document.getElementById('product-count').textContent=state.products.length+' listed';document.getElementById('insight-count').textContent=state.insights.length+' articles';document.getElementById('career-count').textContent=state.careers.length?state.careers.length+' openings':'No openings';document.getElementById('products-summary').textContent=state.products.length+' products';document.getElementById('insights-summary').textContent=state.insights.length+' insights';document.getElementById('careers-summary').textContent=state.careers.length?state.careers.length+' open roles':'No openings';
+ document.getElementById('products-list').innerHTML=state.products.map(p=>'<div class="item">'+(safeUrl(p.image)?'<img class="item-thumb" src="'+esc(safeUrl(p.image))+'" alt="">':'<div class="item-thumb">▣</div>')+'<div class="item-info"><b>'+esc(p.name)+'</b><small>'+esc(p.description)+'</small></div><span class="badge '+(p.status==='Live'?'':'soon')+'">'+esc(p.status)+'</span><div class="item-actions"><button class="btn secondary small" data-edit-product="'+esc(p.id)+'">Edit</button><button class="btn danger small" data-delete-product="'+esc(p.id)+'">Remove</button></div></div>').join('')||'<div class="empty">No products yet. Add your first app when you’re ready.</div>';
+ document.getElementById('insights-list').innerHTML=state.insights.map(p=>'<div class="item">'+(safeUrl(p.image)?'<img class="item-thumb" src="'+esc(safeUrl(p.image))+'" alt="">':'<div class="item-thumb">▧</div>')+'<div class="item-info"><b>'+esc(p.title)+'</b><small>'+esc(p.category)+' · '+esc(p.time)+'</small></div><div class="item-actions"><button class="btn secondary small" data-edit-insight="'+esc(p.id)+'">Edit</button><button class="btn danger small" data-delete-insight="'+esc(p.id)+'">Remove</button></div></div>').join('')||'<div class="empty">No insights published yet.</div>';
+ document.getElementById('careers-list').innerHTML=state.careers.map(p=>'<div class="item"><div class="item-thumb">♧</div><div class="item-info"><b>'+esc(p.title)+'</b><small>'+esc(p.team)+' · '+esc(p.type)+' · '+esc(p.location)+'</small></div><div class="item-actions"><button class="btn secondary small" data-edit-career="'+esc(p.id)+'">Edit</button><button class="btn danger small" data-delete-career="'+esc(p.id)+'">Close role</button></div></div>').join('')||'<div class="empty">No current openings. The website will show the no-openings message.</div>';
+ document.querySelectorAll('[data-edit-product]').forEach(b=>b.onclick=()=>editItem('product',b.dataset.editProduct));document.querySelectorAll('[data-delete-product]').forEach(b=>b.onclick=()=>removeItem('products',b.dataset.deleteProduct,'product'));
+ document.querySelectorAll('[data-edit-insight]').forEach(b=>b.onclick=()=>editItem('insight',b.dataset.editInsight));document.querySelectorAll('[data-delete-insight]').forEach(b=>b.onclick=()=>removeItem('insights',b.dataset.deleteInsight,'insight'));
+ document.querySelectorAll('[data-edit-career]').forEach(b=>b.onclick=()=>editItem('career',b.dataset.editCareer));document.querySelectorAll('[data-delete-career]').forEach(b=>b.onclick=()=>removeItem('careers',b.dataset.deleteCareer,'opening'));
+}
+function showEditor(which,item){const form=document.getElementById(which+'-editor');form.hidden=false;form.reset();fillForm(form,item||{});document.getElementById(which+'-form-title').textContent=(item?'Edit ':'Add ')+(which==='career'?'opening':which);form.scrollIntoView({behavior:'smooth',block:'center'})}
+function editItem(which,id){const collection=which==='product'?'products':which==='insight'?'insights':'careers';showEditor(which,state[collection].find(x=>x.id===id))}
+function removeItem(collection,id,label){if(!confirm('Remove this '+label+' from the local draft?'))return;state[collection]=state[collection].filter(x=>x.id!==id);save()}
+function readImage(file){return new Promise((resolve,reject)=>{if(file.size>300*1024){reject(new Error('Choose an image smaller than 300 KB for this local preview.'));return}const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('Could not read that image.'));reader.readAsDataURL(file)})}
+function bindEditor(which,collection){const form=document.getElementById(which+'-editor');form.addEventListener('submit',async e=>{e.preventDefault();const obj=Object.fromEntries(new FormData(form).entries());const file=form.elements.imageFile&&form.elements.imageFile.files[0];delete obj.imageFile;try{if(file)obj.image=await readImage(file)}catch(err){toast(err.message);return}if(!obj.id)obj.id=which+'-'+Date.now();if(collection==='insights')obj.body=(obj.body||'').split(/\n\s*\n/).filter(Boolean);const index=state[collection].findIndex(x=>x.id===obj.id);if(index<0){if(collection==='insights')state[collection].unshift(obj);else state[collection].push(obj)}else state[collection][index]=obj;form.hidden=true;save()})}
+document.getElementById('add-product').onclick=()=>showEditor('product');document.getElementById('add-insight').onclick=()=>showEditor('insight');document.getElementById('add-career').onclick=()=>showEditor('career');
+bindEditor('product','products');bindEditor('insight','insights');bindEditor('career','careers');
+document.querySelectorAll('[data-cancel]').forEach(b=>b.onclick=()=>document.getElementById(b.dataset.cancel).hidden=true);
+document.getElementById('site-form').addEventListener('submit',e=>{e.preventDefault();Object.assign(state.site,Object.fromEntries(new FormData(e.currentTarget).entries()));save()});
+document.getElementById('social-form').addEventListener('submit',e=>{e.preventDefault();state.socials=Object.fromEntries(new FormData(e.currentTarget).entries());save()});
+document.getElementById('export-data').onclick=document.getElementById('export-data-2').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='imaanix-admin-draft.json';a.click();URL.revokeObjectURL(a.href)};
+document.getElementById('import-file').addEventListener('change',async e=>{try{const imported=JSON.parse(await e.target.files[0].text());if(!imported.site||!Array.isArray(imported.products)||!Array.isArray(imported.insights))throw new Error();state=imported;save();toast('Draft imported')}catch(err){toast('That file is not a valid Imaanix draft')}e.target.value=''})
+fillForm(document.getElementById('site-form'),state.site);fillForm(document.getElementById('social-form'),state.socials);render();
+window.IMAANIX_ADMIN_GET_DRAFT=function(){return JSON.parse(JSON.stringify(state))};
+window.IMAANIX_ADMIN_IMPORT=function(data){state={...JSON.parse(JSON.stringify(defaults)),...data,site:{...defaults.site,...(data.site||{})},socials:{...defaults.socials,...(data.socials||{})},products:Array.isArray(data.products)?data.products:[],insights:Array.isArray(data.insights)?data.insights:[],careers:Array.isArray(data.careers)?data.careers:[]};fillForm(document.getElementById('site-form'),state.site);fillForm(document.getElementById('social-form'),state.socials);render()};
+})();
+</script>
+<script type="module" src="admin-firebase.js"></script>
+</body>
+</html>
