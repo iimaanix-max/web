@@ -30,7 +30,7 @@ function friendly(error) {
   if (code.includes("operation-not-allowed")) return "Enable Email/Password sign-in in Firebase Authentication → Sign-in method.";
   if (code.includes("too-many-requests")) return "Firebase temporarily paused sign-in attempts. Wait a little and try again.";
   if (code.includes("network-request-failed")) return "Network error. Check your connection and try again.";
-  if (code.includes("permission-denied")) return "Firebase denied access. Deploy the supplied RTDB and Storage rules, and verify this admin email.";
+  if (code.includes("permission-denied")) return "Firebase denied access. Deploy the supplied RTDB and Storage rules for this admin account.";
   return error?.message || "Firebase request failed.";
 }
 function showInbox(items) {
@@ -84,10 +84,10 @@ document.getElementById("publish-data").addEventListener("click", async event =>
 onAuthStateChanged(auth, async user => {
   if (stopInbox) { stopInbox(); stopInbox = null; }
   if (!user) { appPanel.hidden = true; gate.hidden = false; setBanner("Sign in required."); return; }
-  if (user.email?.toLowerCase() !== firebaseAdminEmail.toLowerCase() || !user.emailVerified) {
+  if (user.email?.toLowerCase() !== firebaseAdminEmail.toLowerCase()) {
     await signOut(auth); appPanel.hidden = true; gate.hidden = false;
-    say(user.emailVerified ? "This account is not authorized for this admin panel." : "Verify this email address in Firebase Authentication before using admin.");
-    setBanner("Admin email verification required."); return;
+    say("This account is not authorized for this admin panel.");
+    setBanner("Authorized admin account required."); return;
   }
   gate.hidden = true; appPanel.hidden = false;
   document.getElementById("admin-session-label").textContent = user.email;

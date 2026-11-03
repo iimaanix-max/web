@@ -194,13 +194,13 @@
 
     <section class="view" id="view-security">
       <p class="intro">This workspace signs in through Firebase Authentication; Firebase Security Rules control every database and image request.</p>
-      <div class="notice" style="margin-bottom:16px"><strong>Admin access is protected by Firebase Authentication and database rules.</strong> Keep email verification enabled and do not share your password.</div>
+      <div class="notice" style="margin-bottom:16px"><strong>Admin access uses Firebase Authentication and database rules.</strong> Keep the admin password private; only the configured admin email is allowed.</div>
       <div class="panel"><div class="panel-head"><h2>Firebase connection checklist</h2><span class="badge soon">Not connected</span></div>
         <div class="settings-list">
           <div class="setting"><span class="check">01</span><div><b>Firebase Authentication</b><p>Enable admin sign-in; allow access only to your approved account.</p></div></div>
-          <div class="setting"><span class="check">02</span><div><b>Realtime Database rules</b><p>Public content is readable; publishing and inbox reads require the verified admin email. Public visitors can only create validated inquiry records.</p></div></div>
+          <div class="setting"><span class="check">02</span><div><b>Realtime Database rules</b><p>Public content is readable; publishing and inbox reads require the configured admin account. Public visitors can only create validated inquiry records.</p></div></div>
           <div class="setting"><span class="check">03</span><div><b>Cloud Storage rules</b><p>Restrict image uploads by admin identity, file type, and file size.</p></div></div>
-          <div class="setting"><span class="check">04</span><div><b>Inquiry inbox</b><p>Messages are stored in Realtime Database; reads and moderation are restricted to the verified admin account.</p></div></div>
+          <div class="setting"><span class="check">04</span><div><b>Inquiry inbox</b><p>Messages are stored in Realtime Database; reads and moderation are restricted to the configured admin account.</p></div></div>
           <div class="setting"><span class="check">05</span><div><b>Publishing &amp; audit trail</b><p>Separate draft from published content and record who changed it and when.</p></div></div>
         </div>
         <div class="notice" style="margin-top:18px">Deploy <code>database.rules.json</code> and <code>storage.rules</code> before publishing. Enable App Check before launch to reduce automated form abuse. Never put a service-account key in this website.</div>
