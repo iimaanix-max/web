@@ -26,6 +26,9 @@ function friendly(error) {
   const code = error?.code || "";
   if (code.includes("invalid-credential") || code.includes("wrong-password")) return "Email or password is incorrect.";
   if (code.includes("user-not-found")) return "This email does not have a Firebase Authentication account.";
+  if (code.includes("unauthorized-domain")) return "Allow iimaanix-max.github.io in Firebase Authentication → Settings → Authorized domains, then try again.";
+  if (code.includes("operation-not-allowed")) return "Enable Email/Password sign-in in Firebase Authentication → Sign-in method.";
+  if (code.includes("too-many-requests")) return "Firebase temporarily paused sign-in attempts. Wait a little and try again.";
   if (code.includes("network-request-failed")) return "Network error. Check your connection and try again.";
   if (code.includes("permission-denied")) return "Firebase denied access. Deploy the supplied RTDB and Storage rules, and verify this admin email.";
   return error?.message || "Firebase request failed.";

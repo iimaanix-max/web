@@ -1,0 +1,23 @@
+{
+  "rules": {
+    "publicContent": {
+      ".read": true,
+      ".write": "auth != null && auth.token.email_verified == true && auth.token.email == 'iimaanix@gmail.com'"
+    },
+    "inquiries": {
+      ".read": "auth != null && auth.token.email_verified == true && auth.token.email == 'iimaanix@gmail.com'",
+      "$inquiryId": {
+        ".write": "(auth != null && auth.token.email_verified == true && auth.token.email == 'iimaanix@gmail.com') || (!data.exists() && newData.exists())",
+        ".validate": "newData.hasChildren(['name', 'email', 'topic', 'message', 'createdAt']) && newData.child('createdAt').isNumber() && newData.child('createdAt').val() <= now && newData.child('createdAt').val() > 0",
+        "name": { ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 100" },
+        "email": { ".validate": "newData.isString() && newData.val().length >= 5 && newData.val().length <= 254" },
+        "organization": { ".validate": "!newData.exists() || (newData.isString() && newData.val().length <= 120)" },
+        "topic": { ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 60" },
+        "message": { ".validate": "newData.isString() && newData.val().length >= 10 && newData.val().length <= 3000" },
+        "createdAt": { ".validate": "newData.isNumber() && newData.val() <= now && newData.val() > 0" },
+        "status": { ".validate": "newData.isString() && newData.val().length <= 20 && (newData.val() == 'unread' || (auth != null && auth.token.email_verified == true && auth.token.email == 'iimaanix@gmail.com'))" },
+        "$other": { ".validate": false }
+      }
+    }
+  }
+}
