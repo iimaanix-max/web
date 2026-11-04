@@ -71,8 +71,18 @@ document.getElementById("publish-data").addEventListener("click", async event =>
       await uploadBytes(target, blob, { contentType: blob.type }); return await getDownloadURL(target);
     }
     const products = await Promise.all(draft.products.map(async item => ({ ...item, image: await resolveImage(item.image, "products", item.id) })));
+    const productFeatures = {};
+    for (const [productId, features] of Object.entries(draft.productFeatures || {})) {
+      productFeatures[productId] = await Promise.all((features || []).map(async feature => ({
+        ...feature,
+        screens: await Promise.all((feature.screens || []).map(async screen => ({
+          ...screen,
+          image: await resolveImage(screen.image, "product-features/" + productId + "/" + feature.id, screen.id || "screen")
+        })))
+      })));
+    }
     const insights = await Promise.all(draft.insights.map(async item => ({ ...item, image: await resolveImage(item.image, "insights", item.id) })));
-    const publicContent = { site: draft.site, products, insights, careers: draft.careers, socials: draft.socials, updatedAt: Date.now() };
+    const publicContent = { site: draft.site, pages: draft.pages, products, productFeatures, insights, careers: draft.careers, socials: draft.socials, digitalTasbihSocials: draft.digitalTasbihSocials, updatedAt: Date.now() };
     await set(ref(db, "publicContent"), publicContent);
     window.IMAANIX_ADMIN_IMPORT(publicContent);
     setBanner("Published to the website database.", true);

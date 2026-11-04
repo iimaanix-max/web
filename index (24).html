@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Imaanix – Technology for a more connected everyday</title>
+<meta name="description" content="Imaanix creates a growing suite of purposeful Islamic apps designed to make everyday life simpler, more connected and more meaningful.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕌</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Outfit:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#f8f3e9;--cream2:#f1ead9;--g1:#0f3d2a;--g2:#0a2a1d;--g3:#071d14;--gold:#b98a3e;--gold2:#e0b865;--tx:#17382a;--mu:#657568;--ln:#e5dcc7}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{font-family:Inter,system-ui,sans-serif;background:var(--cream);color:var(--tx);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:"Playfair Display",Georgia,serif;font-weight:500;line-height:1.1;color:var(--g1)}
+em{font-style:italic;color:var(--gold)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+svg.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+/* NAV */
+header{position:sticky;top:0;z-index:90;background:rgba(248,243,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--ln)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:78px}
+.logo{display:flex;align-items:center;gap:10px;font:500 1.85rem Outfit,sans-serif;letter-spacing:-.5px;color:var(--g1)}
+.logo svg{width:38px;height:42px}
+.menu{display:flex;gap:42px;font-size:.92rem;font-weight:500}
+.menu a{position:relative;padding:4px 0}.menu a::after{content:"";position:absolute;left:0;bottom:-2px;height:1.5px;width:0;background:var(--gold);transition:.3s}.menu a:hover::after{width:100%}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border-radius:999px;font-weight:600;font-size:.9rem;border:0;cursor:pointer;font-family:inherit;transition:.3s}
+.bd{background:var(--g1);color:#fff}.bd:hover{background:var(--g3);transform:translateY(-2px);box-shadow:0 12px 26px rgba(15,61,42,.3)}
+.bg{background:linear-gradient(120deg,#f1cf86,#d4a24a);color:#3a2605}.bg:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(212,162,74,.5)}
+.burger{display:none;background:none;border:1px solid var(--ln);width:44px;height:44px;border-radius:12px;font-size:1.3rem;cursor:pointer;color:var(--g1)}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;background:radial-gradient(ellipse at 80% 30%,#d8dfc9 0,transparent 55%),linear-gradient(180deg,#f8f3e9,#efe8d6)}
+.hero-in{display:grid;grid-template-columns:.95fr 1.05fr;align-items:center;min-height:640px;position:relative}
+.eb{display:flex;align-items:center;gap:14px;font-size:.72rem;letter-spacing:2.4px;font-weight:600;color:#4a5b50;margin-bottom:26px}
+.eb::before{content:"";width:34px;height:1.5px;background:var(--gold)}
+.hero h1{font-size:clamp(2.9rem,6vw,5rem);letter-spacing:-1.5px;margin-bottom:26px}
+.hero h1 span{display:block;opacity:0;transform:translateY(34px);animation:up .9s cubic-bezier(.2,.9,.2,1) forwards}
+.hero h1 span:nth-child(2){animation-delay:.15s}.hero h1 span:nth-child(3){animation-delay:.3s}
+@keyframes up{to{opacity:1;transform:none}}
+.hero p.s{font-size:1.06rem;color:#3d5246;max-width:420px;margin-bottom:34px}
+.stores{display:flex;gap:14px;flex-wrap:wrap}
+.sb{display:flex;align-items:center;gap:10px;background:#000;color:#fff;padding:9px 18px 9px 14px;border-radius:10px;border:1px solid #444;transition:.3s;position:relative}
+.sb:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(0,0,0,.3)}
+.sb svg{width:26px;height:26px}.sb small{display:block;font-size:.58rem;opacity:.85;line-height:1.1}.sb b{font:600 1.2rem/1.1 Outfit}
+.sb .cs{position:absolute;top:-9px;right:-6px;background:var(--gold);color:#fff;font-size:.58rem;font-weight:700;padding:2px 8px;border-radius:99px;letter-spacing:.5px}
+
+.stage{position:relative;height:560px}
+.leaf{position:absolute;right:-30px;bottom:50px;width:130px;opacity:.85;z-index:1}
+.ph{position:absolute;width:230px;height:480px;border-radius:38px;padding:7px;background:linear-gradient(145deg,#202020 0,#080808 42%,#000 100%);box-shadow:0 30px 60px rgba(0,0,0,.32);transform-origin:bottom center}
+.ph .sc{height:100%;border-radius:32px;overflow:hidden;position:relative;background:linear-gradient(180deg,#0e3a28,#082619);color:#fff;display:flex;flex-direction:column;align-items:center}
+.ph.c{left:50%;bottom:55px;margin-left:-115px;z-index:3;animation:fl 7s ease-in-out infinite}
+.ph.l{left:7%;bottom:60px;transform:scale(.88) rotate(-8deg);z-index:2;animation:fl 8s ease-in-out infinite -2s}
+.ph.r{right:2%;bottom:30px;transform:scale(.9) rotate(9deg);z-index:4;animation:fl 9s ease-in-out infinite -4s}
+@keyframes fl{50%{translate:0 -12px}}
+.ph .nt{position:absolute;top:8px;width:70px;height:18px;border-radius:12px;background:#000;z-index:5}
+.ph .ti{margin-top:34px;font-size:.78rem;width:100%;padding:0 18px;color:#f1e6c7;display:flex;gap:8px}
+.tasbih-meter{position:relative;flex:none;width:150px;height:150px;margin-top:16px}
+.beads{display:block;width:100%;height:100%}
+.num{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font:600 2.6rem "Playfair Display",serif;color:var(--gold2)}
+.ctr{display:flex;gap:16px;margin-top:22px}.ctr i{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--gold);display:grid;place-items:center;font-style:normal;color:var(--gold2);font-size:.8rem}
+.sk{position:absolute;bottom:0;left:0;width:100%;height:90px;opacity:.9}
+.lg{margin-top:90px;text-align:center}.lg svg{width:62px;margin:0 auto 6px;display:block}.lg b{font:500 1.8rem Outfit;letter-spacing:-.5px;display:block}.lg small{font-size:.6rem;color:var(--gold2);letter-spacing:.5px}
+.pt{margin-top:12px;width:100%;padding:0 18px}.pt h6{font:500 1rem "Playfair Display",serif;margin:8px 0 2px;color:#f6ebd0}.pt small{font-size:.62rem;opacity:.7}
+.pt div{display:flex;justify-content:space-between;font-size:.7rem;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.1)}.pt div.on{border-color:var(--gold)}.pt div span{opacity:.85}
+.quran{background:#f7f0dc!important;color:#2b2a22;padding-top:34px}.quran .qh{font-size:.62rem;color:#6b5a2c;margin:6px 0}.qlines{width:78%;flex:1;margin-bottom:60px;background:repeating-linear-gradient(180deg,#8a7a4a 0 2px,transparent 2px 15px);opacity:.55;border-radius:3px}
+.dua{justify-content:center;gap:10px}.dua .h{font-size:4rem;filter:drop-shadow(0 8px 20px rgba(224,184,101,.5))}.dua b{font:500 1rem "Playfair Display",serif;color:var(--gold2)}
+
+/* STRIP */
+.mv{background:var(--cream);border-bottom:1px solid var(--ln)}
+.mv .wrap{display:grid;grid-template-columns:1fr 1fr;padding-top:34px;padding-bottom:34px}
+.mvi{display:flex;gap:22px;align-items:center;padding:6px 40px}.mvi+.mvi{border-left:1px solid var(--ln)}
+.ico{flex:none;width:68px;height:68px;border-radius:50%;background:#efe5cc;display:grid;place-items:center;color:var(--gold);font-size:2rem}
+.mvi h3{font-size:1.35rem;margin-bottom:4px}.mvi p{font-size:.85rem;color:var(--mu);max-width:340px}
+
+section{padding:76px 0}
+.hd{text-align:center;margin-bottom:38px}.hd::before{content:"";display:block;width:56px;height:1.5px;background:var(--gold);margin:0 auto 18px}
+.hd h2{font-size:clamp(1.9rem,3.6vw,2.7rem);margin-bottom:8px}.hd p{color:var(--mu);font-size:.95rem}
+
+/* PRODUCTS */
+.pg{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.pc{background:linear-gradient(145deg,#fbf8ef,#f1e9d6);border:1px solid #eadfc6;border-radius:22px;padding:22px 0 22px 22px;display:grid;grid-template-columns:1fr 100px;gap:6px;overflow:hidden;position:relative;transition:.35s;min-height:250px}
+.pc:hover{transform:translateY(-8px);box-shadow:0 22px 46px rgba(15,61,42,.14)}
+.ai{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:1.7rem;margin-bottom:34px;box-shadow:0 8px 18px rgba(0,0,0,.15)}
+.a1{background:linear-gradient(135deg,#1e7a4c,#0d4a2e)}.a2{background:linear-gradient(135deg,#f4d88e,#c68a2c)}.a3{background:linear-gradient(135deg,#2a9d62,#126a3c)}.a4{background:linear-gradient(135deg,#124d34,#0a2e20)}
+.pc h3{font:600 1.08rem Outfit,sans-serif;color:var(--g1);margin-bottom:6px}.pc p{font-size:.78rem;color:var(--mu);margin-bottom:16px;max-width:130px;line-height:1.5}
+.pc a{font-size:.75rem;font-weight:600;color:var(--g1)}.pc a:hover{color:var(--gold)}
+.tg{position:absolute;top:12px;right:12px;font-size:.58rem;font-weight:700;letter-spacing:.8px;padding:3px 10px;border-radius:99px;background:#dff0e3;color:#17683f;z-index:3}.tg.s{background:#f5e6c4;color:#8a6420}
+.mini{position:relative;height:100%;align-self:end;margin-bottom:-22px;overflow:hidden}
+.mini .ph{position:absolute;left:0;top:4px;bottom:auto;transform:scale(.4)!important;transform-origin:top left;animation:none;margin:0;box-shadow:0 10px 24px rgba(0,0,0,.25)}
+
+.op{display:flex;align-items:center;gap:20px;margin:6px 0 34px}
+.op::before,.op::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.op::after{background:linear-gradient(270deg,transparent,var(--gold))}
+.op span{font:600 1.7rem "Playfair Display",Georgia,serif;color:var(--g1);letter-spacing:.5px;padding:0 6px}
+.op span::after{content:"";display:block;width:34px;height:2px;background:var(--gold);margin:8px auto 0;border-radius:2px}
+.imp{background:var(--g1);color:#fff;padding:70px 0 54px;margin-top:30px;position:relative;overflow:hidden;text-align:center}
+.imp .wrap{position:relative}
+.imp h2{color:#fff;font-size:clamp(2rem,4vw,3rem);margin-bottom:40px}
+.imp .in{display:grid;grid-template-columns:repeat(3,1fr);max-width:1000px;margin:0 auto;padding:10px 0}
+.imp .in>div{padding:6px 20px}.imp .in>div+div{border:0}
+.imp .in b{display:block;font:600 clamp(2.8rem,6vw,4.6rem)/1.05 "Playfair Display",serif;background:linear-gradient(180deg,#f6dc9c,#c9973f);-webkit-background-clip:text;background-clip:text;color:transparent}
+.imp .in>div>span{font-size:1.05rem;opacity:.92;letter-spacing:.3px}
+.imp .note{margin-top:22px;font-size:.82rem;opacity:.7}
+@media(max-width:700px){.imp .in{grid-template-columns:1fr;gap:18px}.imp .in>div+div{border:0;border-top:1px solid rgba(224,184,101,.25);padding-top:0}}
+/* APPROACH */
+.ap{display:grid;grid-template-columns:repeat(3,1fr)}
+.ap>div{text-align:center;padding:6px 36px}.ap>div+div{border-left:1px solid var(--ln)}
+.ap .ico{width:68px;height:68px;aspect-ratio:1;margin:0 auto 16px;padding:0;border:0;font-size:1.7rem;background:linear-gradient(145deg,#fbf3dc,#ecdcb4);box-shadow:inset 0 0 0 1.5px rgba(185,138,62,.35),0 10px 22px rgba(185,138,62,.18);transition:.35s}.ap>div:hover .ico{transform:translateY(-5px) scale(1.06);box-shadow:inset 0 0 0 1.5px var(--gold),0 14px 28px rgba(185,138,62,.3)}.ap .ico svg{width:1em;height:1em}
+.ap h3{font:600 1.15rem "Playfair Display",serif;margin-bottom:6px}.ap p{font-size:.85rem;color:var(--mu)}
+.sm h2{font-size:2rem}
+
+.band{background:linear-gradient(110deg,var(--g1),var(--g2));border-radius:28px;color:#fff;display:grid;grid-template-columns:repeat(3,1fr);align-items:center;padding:28px 20px;position:relative;overflow:hidden}
+.band::before{content:"";position:absolute;inset:0;background:repeating-conic-gradient(from 0deg at 50% 50%,rgba(224,184,101,.05) 0 15deg,transparent 15deg 30deg)}
+.band div{display:flex;align-items:center;gap:18px;justify-content:center;font:500 1.05rem "Playfair Display",serif;position:relative;padding:6px 10px}.band div+div{border-left:1px solid rgba(255,255,255,.2)}
+.band svg{width:34px;height:34px;color:var(--gold2)}
+
+/* INSIGHTS */
+.ig{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.ar{display:flex;gap:16px;align-items:center;transition:.3s}.ar:hover{transform:translateY(-5px)}
+.ar .im{flex:none;width:165px;height:92px;border-radius:12px;overflow:hidden;box-shadow:0 10px 24px rgba(0,0,0,.15)}.ar .im svg{width:100%;height:100%;display:block;transition:.6s}.ar:hover .im svg{transform:scale(1.1)}
+.ar h3{font:600 .92rem/1.35 Outfit,sans-serif;color:var(--g1);margin-bottom:10px}.ar a{font-size:.78rem;font-weight:600}
+
+/* CTA */
+.cta{background:linear-gradient(110deg,var(--g1),var(--g2));border-radius:24px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:30px;padding:42px 54px;position:relative;overflow:hidden}
+.cta svg.w{position:absolute;left:30px;bottom:-30px;width:160px;color:rgba(224,184,101,.22)}
+.cta div{position:relative;margin-left:150px}.cta h2{color:#fff;font-size:1.8rem;margin-bottom:6px}.cta p{opacity:.9;font-size:.92rem}
+.cta .btn{position:relative;flex:none;padding:16px 32px}
+
+footer{background:var(--g3);color:#cdd9d1;margin-top:60px}
+.ft{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:40px;padding:34px 0}
+footer .logo{color:#fff;padding-right:40px;border-right:1px solid rgba(255,255,255,.15)}
+.fm{display:flex;gap:44px;justify-content:center;font-size:.88rem}.fm a:hover{color:var(--gold2)}
+.soc{display:flex;gap:12px}.soc button,.soc>a{width:42px;height:42px;border-radius:50%;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold2);background:transparent;cursor:pointer;transition:.3s}.soc button:hover,.soc>a:hover{background:var(--gold);color:#fff;transform:translateY(-3px)}.soc button:focus-visible,.soc>a:focus-visible{outline:2px solid var(--gold2);outline-offset:3px}.soc svg{width:18px;height:18px;display:block;fill:currentColor}
+.contact-honeypot{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.latest-art img,.insight-art img,.article-art img{display:block;width:100%;height:100%;object-fit:cover}.insight-placeholder{display:grid;place-items:center;background:linear-gradient(135deg,#174b35,#d8b05e);color:#f9ebcd;font-size:2rem}.insights-empty{grid-column:1/-1;text-align:center;color:var(--mu);padding:24px}.product-photo{object-fit:cover}
+.pc[data-product-link]{cursor:pointer}.pc[data-product-link]:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+.cp{border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;padding:20px 0;font-size:.82rem}.cp b{color:var(--gold2);font-weight:500}
+
+/* PRIVACY SCREEN (opens within this page) */
+.privacy-screen,.career-screen,.contact-screen{display:none;position:fixed;inset:0;z-index:1000;overflow-y:auto;background:var(--cream);padding:0 0 64px}
+.privacy-screen:target,.career-screen:target,.contact-screen:target{display:block}
+.privacy-nav{height:78px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--ln)}
+.privacy-nav .logo{display:flex;align-items:center;gap:10px;font:500 1.85rem Outfit,sans-serif;color:var(--g1)}
+.privacy-nav .logo svg{width:38px;height:42px}
+.privacy-back{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;background:var(--g1);color:#fff;font-size:.9rem;font-weight:600;transition:.25s}
+.privacy-back:hover{background:var(--g3);transform:translateY(-2px)}
+.privacy-content{max-width:916px;margin:0 auto;padding-top:56px}
+.privacy-heading{text-align:center;margin-bottom:36px}
+.privacy-heading h1{font:500 clamp(2.2rem,5vw,3.2rem)/1.1 "Playfair Display",Georgia,serif;color:var(--g1);margin-bottom:12px}
+.privacy-heading h1 em{color:var(--gold)}
+.privacy-heading p{color:var(--mu);font-size:.95rem}
+.privacy-acc{display:grid;gap:10px}
+.privacy-acc details{background:#fbf8ef;border:1px solid var(--ln);border-radius:16px;padding:18px 24px;transition:.25s}
+.privacy-acc details[open]{border-color:var(--gold);background:#fff}
+.privacy-acc summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--g1)}
+.privacy-acc summary::-webkit-details-marker{display:none}
+.privacy-acc summary::after{content:"+";color:var(--gold);font-size:1.4rem;line-height:1;transition:.25s}
+.privacy-acc details[open] summary::after{transform:rotate(45deg)}
+.privacy-acc details p,.privacy-acc details li{color:var(--mu);font-size:.92rem;margin-top:10px}
+.privacy-acc details ul{padding-left:20px}
+
+.career-content{max-width:1000px;margin:0 auto;padding-top:56px}
+.career-heading{text-align:center;max-width:760px;margin:0 auto 42px}
+.career-kicker{font-size:.72rem;font-weight:700;letter-spacing:2px;color:var(--gold);margin-bottom:14px}
+.career-heading h1{font:500 clamp(2.2rem,5vw,3.3rem)/1.1 "Playfair Display",Georgia,serif;color:var(--g1);margin-bottom:16px}
+.career-heading p{color:var(--mu);font-size:1rem;line-height:1.8}
+.openings{display:grid;gap:14px;max-width:820px;margin:0 auto 42px}
+.opening{background:#fbf8ef;border:1px solid var(--ln);border-radius:20px;padding:24px 28px;display:grid;grid-template-columns:1fr auto;gap:10px 24px;align-items:center;transition:.25s}
+.opening:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 14px 30px rgba(15,61,42,.08)}
+.opening-meta{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:8px}
+.opening-meta span{font-size:.72rem;color:var(--g1);background:#efe5cc;padding:4px 10px;border-radius:999px}
+.opening h2{font:600 1.3rem Outfit,sans-serif;color:var(--g1);margin-bottom:6px}
+.opening p{font-size:.88rem;color:var(--mu)}
+.opening-apply{grid-column:2;grid-row:1/3;display:inline-flex;align-items:center;justify-content:center;padding:11px 18px;border-radius:999px;background:var(--g1);color:#fff;font-size:.85rem;font-weight:600;white-space:nowrap;transition:.25s}
+.opening-apply:hover{background:var(--g3);transform:translateY(-2px)}
+.career-empty{max-width:820px;margin:0 auto 44px;text-align:center;padding:28px 24px;border:1px solid var(--ln);border-radius:20px;background:linear-gradient(145deg,#fbf8ef,#f1ead9)}
+.career-empty .empty-icon{width:50px;height:50px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;background:#efe5cc;color:var(--gold);font-size:1.4rem}
+.career-empty h2{font:600 1.2rem Outfit,sans-serif;color:var(--g1);margin-bottom:7px}
+.career-empty p{color:var(--mu);font-size:.9rem;max-width:590px;margin:0 auto}
+.career-preview{max-width:820px;margin:0 auto 44px}
+.career-preview>h2,.career-process h2{font:500 1.55rem "Playfair Display",Georgia,serif;color:var(--g1);margin-bottom:8px}
+.career-preview>p{font-size:.88rem;color:var(--mu);margin-bottom:16px}
+.opening.preview{position:relative;opacity:.9}
+.opening.preview::after{content:"EXAMPLE ONLY";position:absolute;top:12px;right:16px;font-size:.59rem;font-weight:700;letter-spacing:.8px;color:#8a6420;background:#f5e6c4;padding:4px 8px;border-radius:99px}
+.opening.preview .opening-apply{background:#c8c0ae;color:#fff;pointer-events:none}
+.career-process{max-width:820px;margin:0 auto;padding-top:28px;border-top:1px solid var(--ln)}
+.career-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+.career-step{padding:18px;border:1px solid var(--ln);border-radius:16px;background:rgba(255,255,255,.35)}
+.career-step b{display:block;color:var(--gold);font:600 1rem Outfit,sans-serif;margin-bottom:6px}
+.career-step p{font-size:.82rem;color:var(--mu)}
+
+.contact-content{max-width:1080px;margin:0 auto;padding-top:48px}
+.contact-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:28px;align-items:stretch}
+.contact-intro{padding:36px;border-radius:22px;background:linear-gradient(145deg,var(--g1),var(--g3));color:#fff;position:relative;overflow:hidden}
+.contact-intro::after{content:"";position:absolute;width:250px;height:250px;border:1px solid rgba(224,184,101,.2);border-radius:50%;right:-105px;bottom:-115px;box-shadow:0 0 0 25px rgba(224,184,101,.04),0 0 0 52px rgba(224,184,101,.035)}
+.contact-intro .career-kicker{color:var(--gold2)}
+.contact-intro h1{position:relative;font:500 clamp(2rem,4vw,2.8rem)/1.15 "Playfair Display",Georgia,serif;color:#fff;margin:18px 0 14px;z-index:1}
+.contact-intro p{position:relative;font-size:.92rem;line-height:1.8;color:rgba(255,255,255,.82);z-index:1}
+.contact-email{position:relative;display:inline-block;margin-top:26px;color:var(--gold2);font-weight:600;z-index:1}
+.contact-form-card{padding:32px;border:1px solid var(--ln);border-radius:22px;background:#fbf8ef}
+.contact-form-card h2{font:500 1.6rem "Playfair Display",Georgia,serif;color:var(--g1);margin-bottom:6px}
+.contact-form-card>p{font-size:.86rem;color:var(--mu);margin-bottom:22px}
+.contact-form{display:grid;gap:16px}
+.contact-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.contact-field{display:grid;gap:7px}
+.contact-field.full{grid-column:1/-1}
+.contact-field label{font-size:.79rem;font-weight:600;color:var(--g1)}
+.contact-field input,.contact-field select,.contact-field textarea{width:100%;border:1px solid #dcd2bd;border-radius:11px;background:#fffdf8;color:var(--tx);font:400 .9rem Inter,system-ui,sans-serif;padding:12px 13px;outline:none;transition:border-color .2s,box-shadow .2s}
+.contact-field input:focus,.contact-field select:focus,.contact-field textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(185,138,62,.14)}
+.contact-field textarea{min-height:126px;resize:vertical}
+.contact-submit{justify-self:start;border:0;cursor:pointer}
+.contact-note{font-size:.73rem;color:var(--mu);margin-top:-7px}
+
+.article-screen,.all-insights-screen{display:none;position:fixed;inset:0;z-index:1000;overflow-y:auto;background:var(--cream);padding:0 0 70px}
+.article-screen:target,.all-insights-screen:target{display:block}
+.legacy-insights{display:none}
+.insights-content{max-width:1180px;margin:0 auto;padding-top:0}
+.insights-heading{max-width:740px;margin:0 auto 34px;text-align:center}
+.insights-heading .career-kicker{margin-bottom:12px}
+.insights-heading h1{font:500 clamp(2.2rem,5vw,3.2rem)/1.1 "Playfair Display",Georgia,serif;color:var(--g1);margin-bottom:12px}
+.insights-heading h1 em{color:var(--gold)}
+.insights-heading p{color:var(--mu);font-size:.96rem;line-height:1.7}
+.insight-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.insight-card{display:flex;flex-direction:column;overflow:hidden;background:#fbf8ef;border:1px solid var(--ln);border-radius:20px;transition:.3s}
+.insight-card:hover{transform:translateY(-6px);border-color:#d4bd8b;box-shadow:0 18px 38px rgba(15,61,42,.12)}
+.insight-art{height:205px;overflow:hidden;background:#e9e4d7}
+.insight-art svg,.article-art svg{display:block;width:100%;height:100%}
+.insight-copy{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
+.insight-meta{font-size:.69rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#8a6420;margin-bottom:10px}
+.insight-copy h2{font:600 1.2rem/1.35 Outfit,sans-serif;color:var(--g1);margin-bottom:9px}
+.insight-copy p{font-size:.85rem;line-height:1.65;color:var(--mu);margin-bottom:18px}
+.insight-read{margin-top:auto;color:var(--g1);font-size:.82rem;font-weight:700}
+.latest-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.latest-card{display:grid;grid-template-columns:minmax(125px,1.05fr) minmax(115px,1fr);align-items:center;gap:16px;color:var(--tx);transition:.25s}
+.latest-card:hover{transform:translateY(-3px)}
+.latest-art{height:116px;overflow:hidden;border-radius:14px;box-shadow:0 10px 24px rgba(0,0,0,.12);background:#e9e4d7}
+.latest-art svg{display:block;width:100%;height:100%}
+.latest-copy h2{font:600 1rem/1.4 Outfit,sans-serif;color:var(--g1);margin-bottom:12px}
+.latest-copy .insight-meta{font-size:.6rem;letter-spacing:.7px;margin-bottom:7px}
+.latest-read{font-size:.82rem;color:var(--g1);font-weight:600}
+.insights-all{display:flex;justify-content:center;margin-top:34px}
+.insights-all a{display:inline-flex;align-items:center;gap:10px;color:var(--g1);font-weight:600;font-size:.9rem;padding:11px 18px;border:1px solid var(--ln);border-radius:999px;transition:.25s}
+.insights-all a:hover{border-color:var(--gold);background:#fbf8ef;transform:translateY(-2px)}
+.article-content{max-width:850px;margin:0 auto;padding-top:44px}
+.article-back{display:inline-flex;align-items:center;gap:8px;color:var(--g1);font-size:.88rem;font-weight:600;margin-bottom:22px}
+.article-back:hover{color:var(--gold)}
+.article-art{height:350px;overflow:hidden;border-radius:24px;margin-bottom:28px;background:#e9e4d7}
+.article-meta{font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#8a6420;margin-bottom:12px}
+.article-content h1{font:500 clamp(2rem,4.5vw,3.1rem)/1.15 "Playfair Display",Georgia,serif;color:var(--g1);margin-bottom:14px}
+.article-dek{font-size:1.08rem;line-height:1.7;color:var(--mu);padding-bottom:24px;border-bottom:1px solid var(--ln);margin-bottom:24px}
+.article-body{max-width:720px;margin:0 auto}
+.article-body p{font-size:1rem;line-height:1.9;color:#46594d;margin:0 0 20px}
+.article-end{max-width:720px;margin:32px auto 0;padding-top:22px;border-top:1px solid var(--ln);color:var(--mu);font-size:.85rem}
+
+.rv{opacity:0;transform:translateY(34px);transition:opacity .8s,transform .8s cubic-bezier(.2,.9,.2,1)}.rv.on{opacity:1;transform:none}
+@media(max-width:1000px){
+  .menu{position:absolute;top:78px;left:0;right:0;background:var(--cream);flex-direction:column;gap:18px;padding:22px 28px;border-bottom:1px solid var(--ln);display:none}.menu.open{display:flex}.burger{display:block}.nav>.btn{display:none}
+  .hero-in{grid-template-columns:1fr;min-height:0;padding-top:46px}.stage{height:520px;margin:10px -28px 0;transform:scale(.88);transform-origin:top center}
+  .pg{grid-template-columns:1fr 1fr}.ap{grid-template-columns:1fr;gap:30px}.ap>div+div{border:0}.ap>div{padding:6px 12px}.ig{grid-template-columns:1fr}
+  .band{grid-template-columns:1fr;gap:12px}.band div+div{border:0}.mv .wrap{grid-template-columns:1fr}.mvi{padding:14px 0}.mvi+.mvi{border:0}
+  .cta{flex-direction:column;align-items:flex-start;padding:36px 28px}.cta div{margin-left:0}.cta svg.w{display:none}.ft{grid-template-columns:1fr;text-align:center;justify-items:center}footer .logo{border:0;padding:0}.fm{flex-wrap:wrap;gap:20px}.cp{flex-direction:column;gap:6px;text-align:center}
+}
+@media(max-width:600px){.pg{grid-template-columns:1fr}.stage{transform:scale(.72);height:440px;margin-top:-10px}.hero p.s{font-size:1rem}}
+@media(max-width:600px){.privacy-nav{height:68px}.privacy-nav .logo{font-size:1.55rem}.privacy-nav .logo svg{width:32px}.privacy-back{padding:9px 14px;font-size:.82rem}.privacy-content{padding-top:38px}.privacy-acc details{padding:16px 18px}}
+@media(max-width:800px){.career-steps{grid-template-columns:1fr}}
+@media(max-width:600px){.career-content{padding-top:38px}.opening{grid-template-columns:1fr;padding:22px}.opening-apply{grid-column:1;grid-row:auto;justify-self:start}.opening.preview::after{top:14px;right:12px}}
+@media(max-width:800px){.contact-layout{grid-template-columns:1fr}.contact-intro{padding:28px}.contact-content{padding-top:36px}}
+@media(max-width:600px){.contact-form-card{padding:24px 18px}.contact-fields{grid-template-columns:1fr}.contact-field.full{grid-column:1}}
+@media(max-width:1000px){.insight-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:1000px){.latest-grid{grid-template-columns:1fr;max-width:720px;margin:0 auto}.latest-card{grid-template-columns:190px 1fr}.latest-art{height:112px}}
+@media(max-width:600px){.insights-content,.article-content{padding-top:36px}.insight-grid{grid-template-columns:1fr}.insight-art{height:220px}.latest-grid{gap:20px}.latest-card{grid-template-columns:130px 1fr;gap:14px}.latest-art{height:96px}.latest-copy h2{font-size:.92rem;margin-bottom:7px}.latest-read{font-size:.78rem}.article-art{height:220px;border-radius:18px}.article-dek{font-size:.98rem}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv,.hero h1 span{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="lg" viewBox="0 0 40 44" fill="none" stroke="#c9973f" stroke-width="3" stroke-linecap="round"><path d="M20 3v4M17 5h6"/><path d="M5 41V24Q5 14 20 8Q35 14 35 24v17"/><path d="M13 41V26Q13 20 20 17Q27 20 27 26v15"/></symbol>
+  <symbol id="sky" viewBox="0 0 230 90"><defs><linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9a24d"/><stop offset="1" stop-color="#0a2a1d"/></linearGradient></defs><g fill="url(#gg)"><path d="M85 90V50A30 30 0 0 1 145 50V90Z"/><rect x="62" y="30" width="6" height="60"/><path d="M60 30L65 12L70 30Z"/><rect x="162" y="30" width="6" height="60"/><path d="M160 30L165 12L170 30Z"/><path d="M10 90V66A18 18 0 0 1 46 66V90Z"/><path d="M185 90V68A16 16 0 0 1 217 68V90Z"/><rect x="0" y="80" width="230" height="10"/></g></symbol>
+</defs></svg>
+
+<header><div class="wrap nav">
+  <a href="#home" class="logo"><svg><use href="#lg"/></svg>imaanix</a>
+  <nav class="menu" id="menu"><a href="#about">About</a><a href="#products">Products</a><a href="#insights">Insights</a><a href="#careers">Careers</a><a href="#contact-form">Contact</a></nav>
+  <a href="#products" class="btn bd">Explore our apps →</a>
+  <button class="burger" id="bg" aria-label="Menu">☰</button>
+</div></header>
+
+<main>
+<div class="hero" id="home">
+  <div class="wrap hero-in">
+    <div>
+      <div class="eb">FAITH • TECHNOLOGY • A BETTER TOMORROW</div>
+      <h1><span>Technology for</span><span>a more <em>connected</em></span><span>everyday.</span></h1>
+      <p class="s">Imaanix is a technology company creating a growing suite of purposeful Islamic apps—designed to make everyday life simpler, more connected, and more meaningful.</p>
+    </div>
+    <div class="stage">
+      <svg class="leaf" viewBox="0 0 120 160" fill="#6f8a5a"><path d="M60 160C58 110 50 60 10 20 40 30 58 70 60 110 62 70 80 30 110 10 80 50 64 110 60 160Z" opacity=".7"/><path d="M60 160C70 120 90 90 120 80 100 100 80 130 60 160Z" opacity=".5"/></svg>
+      <div class="ph l"><div class="sc"><div class="nt"></div><div class="ti">‹ Tasbih</div><div class="tasbih-meter"><svg class="beads" viewBox="0 0 150 150"></svg><div class="num">33</div></div><div class="ctr"><i>⏮</i><i>⏸</i><i>⟲</i></div><svg class="sk"><use href="#sky"/></svg></div></div>
+      <div class="ph c"><div class="sc"><div class="nt"></div><div class="lg"><svg><use href="#lg"/></svg><b>imaanix</b><small>Faith • Peace • Guidance</small></div><svg class="sk" style="height:120px"><use href="#sky"/></svg></div></div>
+      <div class="ph r"><div class="sc"><div class="nt"></div><div class="pt" style="margin-top:36px"><small>‹</small><h6>Prayer Times</h6><small>📍 New York</small><div class="on"><b>Fajr</b><span>05:12 AM</span></div><div><b>Dhuhr</b><span>01:20 PM</span></div><div><b>Asr</b><span>04:45 PM</span></div><div><b>Maghrib</b><span>08:14 PM</span></div><div><b>Isha</b><span>09:32 PM</span></div></div><svg class="sk"><use href="#sky"/></svg></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="mv" id="about"><div class="wrap">
+  <div class="mvi rv"><div class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M9 3l3 18M15 3l-3 18"/></svg></div><div><h3>Our Mission</h3><p>To create meaningful and reliable Islamic digital products that enrich lives and strengthen faith.</p></div></div>
+  <div class="mvi rv"><div class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M12 2l2.500 3.500L19 5l-.5 4.500L22 12l-3.500 2.500.5 4.500-4.500-.5L12 22l-2.500-3.500L5 19l.5-4.500L2 12l3.500-2.500L5 5l4.500.5z"/><circle cx="12" cy="12" r="3.500"/></svg></div><div><h3>Our Vision</h3><p>To be a leading global publisher of high-quality Islamic apps, inspiring millions on their spiritual journey.</p></div></div>
+</div></div>
+
+<section id="products">
+  <div class="wrap">
+    <div class="hd rv"><h2>Made for the moments <em>that matter</em></h2><p>A growing collection of Islamic apps, designed with care and built for you.</p></div>
+    <div class="op rv"><span>Our Products</span></div>
+    <div class="pg">
+      <div class="pc rv" data-product-link="digital-tasbih" role="link" tabindex="0" aria-label="Explore Digital Tasbih"><span class="tg">LIVE</span><div><div class="ai a1">📿</div><h3>Digital Tasbih</h3><p>Count your Tasbih with ease and devotion.</p><a href="digital-tasbih/">Explore app →</a></div><div class="mini" data-m="tasbih"></div></div>
+      <div class="pc rv"><span class="tg s">SOON</span><div><div class="ai a2">📖</div><h3>Quran Kareem</h3><p>Read, listen and explore the Holy Quran.</p><a href="#contact">Learn more →</a></div><div class="mini" data-m="quran"></div></div>
+      <div class="pc rv"><span class="tg s">SOON</span><div><div class="ai a3">🤲</div><h3>Dua</h3><p>Discover beautiful duas for every moment.</p><a href="#contact">Learn more →</a></div><div class="mini" data-m="dua"></div></div>
+      <div class="pc rv"><span class="tg s">SOON</span><div><div class="ai a4">🕌</div><h3>Prayer Times</h3><p>Get accurate prayer times anywhere.</p><a href="#contact">Learn more →</a></div><div class="mini" data-m="prayer"></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="imp" id="impact">
+  <div class="wrap">
+    <h2 class="rv">Our Impact In Numbers</h2>
+    <!-- Public impact figures can be adjusted in the admin panel. -->
+    <div class="in rv">
+      <div><b class="cn" data-to="180" data-dec="0" data-suffix=" Million+">180 Million+</b><span>Application Downloads*</span></div>
+      <div><b class="cn" data-to="190" data-dec="0" data-suffix="+">190+</b><span>Countries Reached</span></div>
+      <div><b class="cn" data-to="4.7" data-dec="1" data-suffix=" Million+">4.7 Million+</b><span>Daily Active Users*</span></div>
+    </div>
+  </div>
+</div>
+
+<section class="sm" style="padding-top:60px">
+  <div class="wrap">
+    <div class="hd rv"><h2>Our approach</h2></div>
+    <div class="ap rv">
+      <div><div class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M5 19C5 9 11 4 20 4c0 9-5 15-15 15z"/><path d="M5 19L14 10"/></svg></div><h3>Thoughtful by design</h3><p>We craft intuitive and beautiful experiences for our users.</p></div>
+      <div><div class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M8.500 12l2.500 2.500 4.500-5"/></svg></div><h3>Built with care</h3><p>We uphold the highest standards of quality, privacy and reliability.</p></div>
+      <div><div class="ico"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><circle cx="5" cy="10" r="2"/><circle cx="19" cy="10" r="2"/><path d="M6 20c0-3.500 2.700-6 6-6s6 2.500 6 6M2 18c0-2 1.500-3.500 3.500-3.500M22 18c0-2-1.500-3.500-3.500-3.500"/></svg></div><h3>Made for everyday use</h3><p>Our apps are designed to be a part of your daily life.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="band rv">
+  <div><svg class="i" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>A growing family of apps</div>
+  <div><svg class="i" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2.500"/><path d="M11 18.500h2"/></svg>Thoughtful technology, made simple</div>
+  <div><svg class="i" viewBox="0 0 24 24"><path d="M12 21C5 15.500 3 12 3 8.500A4.500 4.500 0 0 1 12 6a4.500 4.500 0 0 1 9 2.500C21 12 19 15.500 12 21z"/></svg>Meaningful tools for everyday life</div>
+</div></div>
+
+<section id="insights-legacy" class="legacy-insights" aria-hidden="true">
+  <div class="wrap">
+    <div class="hd rv"><h2>Insights</h2><p>Thoughts, updates and inspiration from Imaanix.</p></div>
+    <div class="ig">
+      <div class="ar rv"><div class="im"><svg viewBox="0 0 165 92" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="s1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b7fb0"/><stop offset=".6" stop-color="#f0a26a"/><stop offset="1" stop-color="#f7d08a"/></linearGradient></defs><rect width="165" height="92" fill="url(#s1)"/><g fill="#1a2a3c"><path d="M55 92V60A27 27 0 0 1 109 60V92Z"/><rect x="38" y="30" width="5" height="62"/><path d="M36 30L40.500 12L45 30Z"/><rect x="121" y="30" width="5" height="62"/><path d="M119 30L123.500 12L128 30Z"/><path d="M0 92V70A14 14 0 0 1 28 70V92Z"/><path d="M137 92V72A12 12 0 0 1 161 72V92Z"/></g></svg></div><div><h3>The Power of Digital Tools in Strengthening Faith</h3><a href="#">Read more →</a></div></div>
+      <div class="ar rv"><div class="im"><svg viewBox="0 0 165 92" preserveAspectRatio="xMidYMid slice"><rect width="165" height="92" fill="#b9a177"/><path d="M12 14L82 22 82 84 12 76Z" fill="#efe3c4"/><path d="M153 14L82 22 82 84 153 76Z" fill="#f6ecd2"/><g stroke="#8a7449" stroke-width="1.300" opacity=".7"><path d="M22 28L72 33M22 38L72 43M22 48L72 53M22 58L72 63M92 33L142 28M92 43L142 38M92 53L142 48M92 63L142 58"/></g><path d="M82 22V84" stroke="#8a7449" stroke-width="2"/></svg></div><div><h3>How Technology Can Help in Your Spiritual Journey</h3><a href="#">Read more →</a></div></div>
+      <div class="ar rv"><div class="im"><svg viewBox="0 0 165 92" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="s3" cx=".5" cy=".55" r=".6"><stop offset="0" stop-color="#ffcf6b"/><stop offset=".35" stop-color="#d88a2e" stop-opacity=".7"/><stop offset="1" stop-color="#0f1f33"/></radialGradient></defs><rect width="165" height="92" fill="#0f1f33"/><rect width="165" height="92" fill="url(#s3)"/><circle cx="25" cy="22" r="9" fill="#5f8fbf" opacity=".5"/><circle cx="140" cy="30" r="12" fill="#5f8fbf" opacity=".4"/><g fill="#2b1a08"><rect x="73" y="16" width="19" height="4" rx="2"/><path d="M76 20h13l5 16v22l-5 6H76l-5-6V36z" opacity=".85"/></g><path d="M78 30h9l3 10v14H75V40z" fill="#fff0b8"/></svg></div><div><h3>Simple Ways to Stay Connected with Allah</h3><a href="#">Read more →</a></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="insights-home" id="insights" aria-label="Imaanix Insights">
+  <div class="wrap insights-content">
+    <div class="insights-heading"><h1>Insights</h1><p>Thoughts, updates and inspiration from Imaanix.</p></div>
+    <div class="latest-grid" id="latest-insights-grid"></div>
+    <div class="insights-all"><a href="#all-insights">Explore all insights <span aria-hidden="true">→</span></a></div>
+  </div>
+</section>
+<div id="article-pages"></div>
+
+<section class="all-insights-screen" id="all-insights" aria-label="All Imaanix insights">
+  <div class="wrap privacy-nav"><a href="#home" class="logo"><svg><use href="#lg"/></svg>imaanix</a><a class="privacy-back" href="#insights">← Back to home</a></div>
+  <div class="wrap insights-content">
+    <div class="insights-heading"><div class="career-kicker">IDEAS FOR EVERYDAY LIFE</div><h1>All <em>Insights</em></h1><p>Thoughtful reads on faith, technology, and building digital experiences that make everyday moments a little better.</p></div>
+    <div class="insight-grid" id="insight-grid"></div>
+  </div>
+</section>
+
+<div class="wrap" id="contact"><div class="cta rv">
+  <svg class="w" viewBox="0 0 40 44" fill="none" stroke="currentColor" stroke-width="2.500"><path d="M5 44V24Q5 14 20 8Q35 14 35 24v20"/><path d="M13 44V26Q13 20 20 17Q27 20 27 26v18"/></svg>
+  <div><h2>Let's build something meaningful together.</h2><p>Partner with us to create innovative Islamic apps for a more connected world.</p></div>
+  <a href="#contact-form" class="btn bg">Get in touch →</a>
+</div></div>
+</main>
+
+<footer><div class="wrap">
+  <div class="ft">
+    <a href="#home" class="logo"><svg><use href="#lg"/></svg>imaanix</a>
+    <nav class="fm"><a href="#about">About</a><a href="#products">Products</a><a href="#insights">Insights</a><a href="#careers">Careers</a><a href="#privacy">Privacy Policy</a><a href="#contact-form">Contact</a></nav>
+    <div class="soc">
+      <button type="button" data-social="x" aria-label="X (social link coming soon)" title="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.9 5.8 22H2.6l7.3-8.4L1.8 2h6.5l4.5 6.6L18.9 2zm-1.1 18h1.7L7.3 3.9H5.5L17.8 20z"/></svg></button>
+      <button type="button" data-social="instagram" aria-label="Instagram (social link coming soon)" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="17.7" cy="6.5" r="1.2"/></svg></button>
+      <button type="button" data-social="facebook" aria-label="Facebook (social link coming soon)" title="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.4 21v-8.2h2.8l.4-3.2h-3.2v-2c0-.9.3-1.6 1.6-1.6h1.7V3.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.3H7.2v3.2H10V21h3.4z"/></svg></button>
+      <button type="button" data-social="linkedin" aria-label="LinkedIn (social link coming soon)" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.2 8.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM3.5 10h3.4v10.5H3.5zM9 10h3.2v1.4h.1a3.5 3.5 0 0 1 3.2-1.7c3.4 0 4 2.2 4 5.1v5.7h-3.4v-5c0-1.2 0-2.8-1.8-2.8s-2.1 1.3-2.1 2.7v5.1H9z"/></svg></button>
+    </div>
+  </div>
+  <div class="cp"><span>© <span id="yr">2026</span> Imaanix. All rights reserved.</span><b>Faith • Peace • Guidance</b></div>
+</div></footer>
+
+<section class="privacy-screen" id="privacy" aria-label="Privacy Policy">
+  <div class="wrap privacy-nav">
+    <a href="#home" class="logo"><svg><use href="#lg"/></svg>imaanix</a>
+    <a class="privacy-back" href="#home">← Back to Imaanix</a>
+  </div>
+  <div class="wrap privacy-content">
+    <div class="privacy-heading"><h1>Privacy <em>Policy</em></h1><p>Last updated: November 2026. Applies to Imaanix, its website and apps including Digital Tasbih.</p></div>
+    <div class="privacy-acc">
+      <details><summary>1. Who We Are</summary><p>Imaanix ("we", "us") develops mobile apps and digital products. This policy explains how we handle information when you use our apps and website.</p></details>
+      <details><summary>2. Information We Collect</summary><ul><li><b>Usage data:</b> counts, campaign participation and in-app activity needed to run group and global campaigns.</li><li><b>Basic profile data:</b> a display name or identifier, only if you choose to provide one.</li><li><b>Device data:</b> device model, OS and app version, crash logs and approximate region, used to improve stability.</li><li><b>Advertising data:</b> our apps may show ads through third-party networks which may use an advertising ID under their own policies.</li></ul></details>
+      <details><summary>3. How We Use Information</summary><p>To provide and improve our apps, save your progress and show live counts, fix bugs, keep the apps secure, and show ads that help keep our apps running.</p></details>
+      <details><summary>4. Sharing of Information</summary><p>We do not sell your personal information. We may share limited data with trusted providers (hosting, analytics, advertising) who help us operate the apps, or when required by law.</p></details>
+      <details><summary>5. Storage &amp; Security</summary><p>Campaign counters and related data may be stored on secure servers. We use reasonable safeguards, but no method of storage or transmission is completely secure.</p></details>
+      <details><summary>6. Your Choices</summary><p>You can use many features without personal details. You may reset your advertising ID in device settings and can request access to or deletion of your data by contacting us.</p></details>
+      <details><summary>7. Children's Privacy</summary><p>We do not knowingly collect personal information from children under 13 without parental consent. If you believe a child has shared data with us, contact us and we will remove it.</p></details>
+      <details><summary>8. Third-Party Services</summary><p>Our apps may use Google Play Services, Firebase and Google AdMob, which have their own privacy policies.</p></details>
+      <details><summary>9. Changes to This Policy</summary><p>We may update this policy. The latest version will always be on this page with the updated date.</p></details>
+      <details><summary>10. Contact</summary><p>Email <b>contact@imaanix.com</b> for privacy questions or data requests.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="career-screen" id="careers" aria-label="Careers at Imaanix">
+  <div class="wrap privacy-nav">
+    <a href="#home" class="logo"><svg><use href="#lg"/></svg>imaanix</a>
+    <a class="privacy-back" href="#home">← Back to Imaanix</a>
+  </div>
+  <div class="wrap career-content">
+    <div class="career-heading">
+      <div class="career-kicker">CAREERS AT IMAANIX</div>
+      <h1>Build technology <em>with purpose.</em></h1>
+      <p>We create thoughtful digital experiences and apps that make everyday life simpler and more meaningful. If you care about useful products, thoughtful design, and work that makes a difference, we’d love to meet you.</p>
+    </div>
+
+    <div class="career-empty" id="career-empty">
+      <div class="empty-icon" aria-hidden="true">✦</div>
+      <h2>No open roles right now</h2>
+      <p>We’re not hiring at the moment. As Imaanix and our family of apps grow, new opportunities will be listed here. Check back soon.</p>
+    </div>
+
+    <div class="openings" id="career-openings" aria-live="polite"></div>
+
+    <div class="career-preview" id="career-preview">
+      <h2>How an opening will look</h2>
+      <p>When a role is available, it will appear with its team, work type, location, a short description, and application details.</p>
+      <div class="opening preview">
+        <div class="preview-label">SAMPLE LISTING</div>
+        <div class="opening-meta"><span>Product</span><span>Full-time</span><span>Remote</span></div>
+        <h2>Product Designer</h2>
+        <p>Help shape clear, welcoming experiences across the Imaanix app family.</p>
+        <span class="opening-apply">Application link will appear here</span>
+      </div>
+    </div>
+
+    <div class="career-process">
+      <h2>When you apply</h2>
+      <div class="career-steps">
+        <div class="career-step"><b>01 · Explore</b><p>Read the role details to see what the team needs and how you could contribute.</p></div>
+        <div class="career-step"><b>02 · Apply</b><p>Use the application link on the opening to share your details and work.</p></div>
+        <div class="career-step"><b>03 · Connect</b><p>If there’s a fit, our team will reach out with the next steps.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-screen" id="contact-form" aria-label="Contact Imaanix">
+  <div class="wrap privacy-nav">
+    <a href="#home" class="logo"><svg><use href="#lg"/></svg>imaanix</a>
+    <a class="privacy-back" href="#home">← Back to Imaanix</a>
+  </div>
+  <div class="wrap contact-content">
+    <div class="contact-layout">
+      <aside class="contact-intro">
+        <div class="career-kicker">LET’S TALK</div>
+        <h1>Good ideas start with a conversation.</h1>
+        <p>Have an app idea, partnership proposal, or a question about Imaanix? Share a little about it and we’ll take it from there.</p>
+        <a class="contact-email" href="mailto:contact@imaanix.com">contact@imaanix.com</a>
+      </aside>
+      <div class="contact-form-card">
+        <h2>Tell us what you’re thinking</h2>
+        <p>Send your message directly to the Imaanix team. Your inquiry will be available in the admin inbox.</p>
+        <form class="contact-form" id="contact-inquiry-form">
+          <div class="contact-honeypot" aria-hidden="true"><label for="contact-website">Leave this field empty</label><input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <div class="contact-fields">
+            <div class="contact-field"><label for="contact-name">Your name</label><input id="contact-name" name="name" type="text" autocomplete="name" placeholder="e.g. Aisha Khan" required></div>
+            <div class="contact-field"><label for="contact-email">Email address</label><input id="contact-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+            <div class="contact-field"><label for="contact-organization">Company or organization <span>(optional)</span></label><input id="contact-organization" name="organization" type="text" autocomplete="organization" placeholder="Your organization"></div>
+            <div class="contact-field"><label for="contact-topic">What would you like to discuss?</label><select id="contact-topic" name="topic" required><option value="" selected disabled>Select a topic</option><option>App idea</option><option>Partnership</option><option>Product feedback</option><option>General inquiry</option></select></div>
+            <div class="contact-field full"><label for="contact-message">A short note about your idea</label><textarea id="contact-message" name="message" placeholder="What are you hoping to build, discuss, or learn?" required></textarea></div>
+          </div>
+          <button class="btn bg contact-submit" type="submit">Send inquiry →</button>
+          <p class="contact-note" id="contact-form-status" role="status" aria-live="polite">Connecting to the Imaanix inbox…</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)};
+$('#yr').textContent=new Date().getFullYear();
+// Add current openings here; the empty state shows automatically when this list is empty.
+var careerOpenings=[];
+var careerList=$('#career-openings');
+if(careerOpenings.length){
+  $('#career-empty').hidden=true;
+  $('#career-preview').hidden=true;
+  careerList.innerHTML=careerOpenings.map(function(job){return '<article class="opening"><div class="opening-meta"><span>'+job.team+'</span><span>'+job.type+'</span><span>'+job.location+'</span></div><h2>'+job.title+'</h2><p>'+job.description+'</p><a class="opening-apply" href="'+job.applyUrl+'">View role &amp; apply →</a></article>'}).join('');
+}
+var insights=[
+ {id:'insight-post-1',category:'Faith & reflection',time:'4 min read',title:'A Gentle Way to Build a Daily Dhikr Habit',dek:'A steady routine can begin with one small moment that fits naturally into your day.',art:`<svg viewBox="0 0 720 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="art1" x2="0" y2="1"><stop stop-color="#d9c797"/><stop offset="1" stop-color="#f1e6cb"/></linearGradient></defs><rect width="720" height="420" fill="url(#art1)"/><circle cx="535" cy="112" r="53" fill="#fff4d3"/><path d="M0 355h720v65H0z" fill="#173d2d"/><path d="M238 355V231a122 122 0 0 1 244 0v124z" fill="#174b35"/><path d="M275 355V236a85 85 0 0 1 170 0v119" fill="none" stroke="#d8b05e" stroke-width="7"/><path d="M310 355v-64a50 50 0 0 1 100 0v64" fill="#f1e6cb"/><circle cx="581" cy="247" r="7" fill="#b98a3e"/><circle cx="612" cy="270" r="7" fill="#b98a3e"/><circle cx="623" cy="306" r="7" fill="#b98a3e"/><circle cx="608" cy="340" r="7" fill="#b98a3e"/><circle cx="576" cy="357" r="7" fill="#b98a3e"/><circle cx="545" cy="340" r="7" fill="#b98a3e"/><circle cx="531" cy="307" r="7" fill="#b98a3e"/><circle cx="544" cy="273" r="7" fill="#b98a3e"/></svg>`,body:['A meaningful routine does not need to begin with a big goal. Choose a quiet moment that already belongs to your day: after waking, on a short break, or before you settle in for the evening. A small, repeatable pause is often easier to return to than a perfect routine that only works on ideal days.','Keep the moment simple. Put distractions aside, take a breath, and give your attention to the words you are reciting. A counter can help you keep track, but the number does not need to become the point of the practice. Let the tool support your focus rather than set its pace.','If a day gets busy, begin again when you can. The aim is a habit that feels calm and personal, not another task to feel behind on. Over time, a small pause can become a familiar space for reflection.']},
+ {id:'insight-post-2',category:'Product design',time:'5 min read',title:'What Makes an Islamic App Feel Thoughtful?',dek:'Good design starts by understanding the real moments, needs, and boundaries of the people using a product.',art:`<svg viewBox="0 0 720 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="art2" x2="1" y2="1"><stop stop-color="#dce4d4"/><stop offset="1" stop-color="#a7bea6"/></linearGradient></defs><rect width="720" height="420" fill="url(#art2)"/><circle cx="115" cy="85" r="80" fill="#f8f3e9" opacity=".55"/><rect x="205" y="65" width="178" height="302" rx="27" fill="#102d22"/><rect x="218" y="80" width="152" height="270" rx="19" fill="#f7f0dc"/><rect x="253" y="89" width="80" height="11" rx="6" fill="#102d22"/><circle cx="294" cy="171" r="41" fill="#e5d6ae"/><path d="M272 173a22 22 0 1 1 44 0v26h-44z" fill="#1b6945"/><rect x="241" y="234" width="106" height="10" rx="5" fill="#315c45"/><rect x="241" y="256" width="79" height="8" rx="4" fill="#b8c6b8"/><rect x="241" y="280" width="106" height="35" rx="12" fill="#d8b05e"/><rect x="427" y="111" width="178" height="252" rx="23" fill="#fbf8ef" stroke="#d2c6a7" stroke-width="3"/><rect x="451" y="143" width="130" height="12" rx="6" fill="#174b35"/><rect x="451" y="173" width="96" height="8" rx="4" fill="#aab9aa"/><rect x="451" y="205" width="130" height="54" rx="12" fill="#e9e2cf"/><rect x="451" y="275" width="130" height="54" rx="12" fill="#e9e2cf"/></svg>`,body:['An app can be polished and still feel wrong if it ignores the context in which people use it. Thoughtful Islamic app design begins with listening: what is someone trying to do, when do they need help, and what should remain quiet and unobtrusive?','Clarity matters. Important actions should be easy to find, language should be plain, and reminders should respect a person’s settings and attention. Accessibility matters too: readable type, strong contrast, and controls that work for different hands and abilities make an app more welcoming.','Care also means treating trust as part of the experience. Be clear about permissions and choices, avoid asking for information without a reason, and make the product useful without turning every moment into a prompt. The best tools support a person’s practice while leaving room for the person to lead.']},
+ {id:'insight-post-3',category:'Everyday tools',time:'4 min read',title:'Making Prayer Time Tools Work for Your Day',dek:'A few thoughtful settings can make prayer time information easier to use without adding noise.',art:`<svg viewBox="0 0 720 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="art3" x2="0" y2="1"><stop stop-color="#b8d2d2"/><stop offset=".62" stop-color="#efd5a0"/><stop offset="1" stop-color="#d49a58"/></linearGradient></defs><rect width="720" height="420" fill="url(#art3)"/><circle cx="530" cy="143" r="71" fill="#fff0c7"/><path d="M0 297q116-46 229 0t245 0q120-46 246 0v123H0z" fill="#75917d"/><path d="M0 337q120-38 244 0t238 0q120-38 238 0v83H0z" fill="#315d47"/><rect x="124" y="104" width="195" height="234" rx="25" fill="#102d22"/><rect x="137" y="118" width="169" height="205" rx="16" fill="#f7f0dc"/><circle cx="221" cy="197" r="43" fill="#e9dfc7"/><path d="M221 161v37l26 16" fill="none" stroke="#1d6845" stroke-width="7" stroke-linecap="round"/><circle cx="221" cy="198" r="28" fill="none" stroke="#b98a3e" stroke-width="4"/><rect x="160" y="260" width="122" height="10" rx="5" fill="#315c45"/><rect x="160" y="282" width="88" height="8" rx="4" fill="#b9c5b7"/><path d="M460 297V223a56 56 0 0 1 112 0v74z" fill="#174b35"/><path d="M478 297v-72a38 38 0 0 1 76 0v72" fill="none" stroke="#d8b05e" stroke-width="5"/></svg>`,body:['Prayer time tools are most useful when they fit the way you plan your day. Start by choosing the correct location and reviewing the calculation settings available in the app. If you follow a local mosque or community timetable, compare the displayed times with that trusted schedule.','Notifications are a personal choice. A short reminder at a time that works for you may help; repeated alerts can become background noise. Pick only the reminders you want, and adjust them as your routine changes. A useful app should make these choices easy to revisit.','Treat a digital schedule as a practical aid, not a substitute for local guidance when timing details matter. With clear settings and a little personalization, prayer time information can stay close at hand without taking over your screen.']},
+ {id:'insight-post-4',category:'Digital Tasbih',time:'3 min read',title:'Using a Digital Tasbih with More Intention',dek:'A counter can keep your place; a simple pause can help keep your attention with it.',art:`<svg viewBox="0 0 720 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="art4" x2="0" y2="1"><stop stop-color="#e8ddc5"/><stop offset="1" stop-color="#c6d1bd"/></linearGradient></defs><rect width="720" height="420" fill="url(#art4)"/><circle cx="354" cy="208" r="142" fill="none" stroke="#b98a3e" stroke-width="18" stroke-dasharray="2 19" stroke-linecap="round"/><circle cx="354" cy="208" r="112" fill="#f8f3e9"/><path d="M354 120v88l61 36" fill="none" stroke="#174b35" stroke-width="10" stroke-linecap="round"/><circle cx="354" cy="208" r="13" fill="#d8b05e"/><rect x="290" y="305" width="128" height="49" rx="24" fill="#174b35"/><path d="M318 330h72" stroke="#f5e6c4" stroke-width="5" stroke-linecap="round"/><circle cx="119" cy="115" r="9" fill="#fff8e9"/><circle cx="565" cy="95" r="7" fill="#fff8e9"/><circle cx="554" cy="318" r="11" fill="#fff8e9"/><path d="M0 372q165-58 360 0t360 0v48H0z" fill="#315d47" opacity=".78"/></svg>`,body:['A digital tasbih is a simple tool: it helps you keep count when you do not have prayer beads with you. Before you begin, take a moment to decide what you want this pause to be. A clear intention can make a small interaction feel less like tapping through a screen.','Use the counter at a comfortable pace. If you lose your place, restart without frustration; the app is there to assist, not to grade your practice. You can also silence notifications or set the phone aside between sessions so the screen does not pull your attention elsewhere.','Technology works best here when it stays in the background. Let the counter handle the counting, then give your focus to the moment itself.']},
+ {id:'insight-post-5',category:'Trust & technology',time:'5 min read',title:'Trust Begins with the Small Choices in an App',dek:'Privacy, clear controls, and honest explanations are part of a good product experience.',art:`<svg viewBox="0 0 720 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="art5" x2="1" y2="1"><stop stop-color="#153f30"/><stop offset="1" stop-color="#082519"/></linearGradient></defs><rect width="720" height="420" fill="url(#art5)"/><circle cx="355" cy="209" r="148" fill="#1c5840" opacity=".7"/><path d="M355 82l112 42v77c0 78-49 125-112 156-63-31-112-78-112-156v-77z" fill="#e9ddb9"/><path d="M355 111l83 31v59c0 57-35 94-83 120-48-26-83-63-83-120v-59z" fill="#174b35"/><rect x="321" y="191" width="68" height="58" rx="12" fill="#f4e7c5"/><path d="M334 191v-18a21 21 0 0 1 42 0v18" fill="none" stroke="#d8b05e" stroke-width="9"/><circle cx="355" cy="217" r="7" fill="#b98a3e"/><path d="M355 224v12" stroke="#b98a3e" stroke-width="5" stroke-linecap="round"/><circle cx="145" cy="125" r="5" fill="#e0b865"/><circle cx="578" cy="152" r="7" fill="#e0b865"/><circle cx="174" cy="300" r="7" fill="#e0b865"/><circle cx="548" cy="316" r="5" fill="#e0b865"/></svg>`,body:['Trust is built through small, visible choices. People should be able to understand what information an app asks for, why it is needed, and what happens if they say no. Clear explanations make those choices feel like part of the product, not a surprise hidden in a setup flow.','Good privacy design starts with restraint: collect only what a feature needs, explain optional permissions in plain language, and make settings easy to find later. If an app includes analytics or advertising tools, those should be described clearly so people can make informed choices.','These principles apply to every app, large or small. When a product treats people’s attention and information with care, it gives them a stronger reason to keep using it.']},
+ {id:'insight-post-6',category:'Building Imaanix',time:'4 min read',title:'One Vision, Many Useful Apps',dek:'A family of apps can serve different needs while sharing the same care and purpose.',art:`<svg viewBox="0 0 720 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="art6" x2="0" y2="1"><stop stop-color="#d7e2d0"/><stop offset="1" stop-color="#f1e5c8"/></linearGradient></defs><rect width="720" height="420" fill="url(#art6)"/><path d="M120 210h480M360 100v220" stroke="#b98a3e" stroke-width="4" stroke-dasharray="8 10" opacity=".7"/><circle cx="360" cy="210" r="68" fill="#174b35"/><path d="M329 245v-44a31 31 0 0 1 62 0v44" fill="none" stroke="#e0b865" stroke-width="8"/><path d="M344 245v-39a16 16 0 0 1 32 0v39" fill="none" stroke="#e0b865" stroke-width="6"/><rect x="63" y="135" width="112" height="150" rx="21" fill="#fbf8ef" stroke="#d1c5a7" stroke-width="3"/><circle cx="119" cy="185" r="23" fill="#d8b05e"/><path d="M100 186a19 19 0 0 1 38 0" fill="#174b35"/><rect x="87" y="222" width="64" height="8" rx="4" fill="#829783"/><rect x="87" y="242" width="45" height="7" rx="4" fill="#c2cbbd"/><rect x="545" y="135" width="112" height="150" rx="21" fill="#fbf8ef" stroke="#d1c5a7" stroke-width="3"/><path d="M572 185h58M572 202h58M572 219h58M572 236h58" stroke="#174b35" stroke-width="8" stroke-linecap="round"/><circle cx="360" cy="83" r="50" fill="#fbf8ef" stroke="#d1c5a7" stroke-width="3"/><path d="M332 101V81a28 28 0 0 1 56 0v20" fill="none" stroke="#174b35" stroke-width="7"/><path d="M342 101V82a18 18 0 0 1 36 0v19" fill="none" stroke="#d8b05e" stroke-width="5"/><circle cx="360" cy="337" r="50" fill="#fbf8ef" stroke="#d1c5a7" stroke-width="3"/><path d="M334 347q26-39 52 0" fill="none" stroke="#174b35" stroke-width="7"/><circle cx="360" cy="324" r="10" fill="#d8b05e"/></svg>`,body:['A growing app portfolio is strongest when each product has a clear reason to exist. One app might help someone keep track of a daily practice; another might make useful information easier to find. The shared idea is not to put everything in one place, but to make each experience feel considered and easy to use.','For people using several products from the same company, consistency helps. Familiar language, clear navigation, and a reliable level of care make it easier to move between apps without relearning everything. At the same time, each app should be shaped around its own purpose.','That is the direction we want Imaanix to grow in: a family of useful Islamic apps, each built around a real everyday need and connected by a commitment to thoughtful digital experiences.']}
+];
+var insightGrid=$('#insight-grid'),latestGrid=$('#latest-insights-grid'),articlePages=$('#article-pages');
+latestGrid.innerHTML=insights.slice(0,3).map(function(post){return '<a class="latest-card" href="#'+post.id+'"><div class="latest-art">'+post.art+'</div><div class="latest-copy"><div class="insight-meta">'+post.category+'</div><h2>'+post.title+'</h2><span class="latest-read">Read more →</span></div></a>'}).join('');
+insightGrid.innerHTML=insights.map(function(post){return '<a class="insight-card" href="#'+post.id+'"><div class="insight-art">'+post.art+'</div><div class="insight-copy"><div class="insight-meta">'+post.category+' · '+post.time+'</div><h2>'+post.title+'</h2><p>'+post.dek+'</p><span class="insight-read">Read insight →</span></div></a>'}).join('');
+articlePages.innerHTML=insights.map(function(post){return '<article class="article-screen" id="'+post.id+'" aria-label="'+post.title+'"><div class="wrap privacy-nav"><a href="#home" class="logo"><svg><use href="#lg"/></svg>imaanix</a><a class="privacy-back" href="#insights">← Back to insights</a></div><div class="wrap article-content"><a class="article-back" href="#insights">← Back to insights</a><div class="article-art">'+post.art+'</div><div class="article-meta">'+post.category+' · '+post.time+' · Imaanix Insights</div><h1>'+post.title+'</h1><p class="article-dek">'+post.dek+'</p><div class="article-body">'+post.body.map(function(paragraph){return '<p>'+paragraph+'</p>'}).join('')+'</div><div class="article-end">Thoughtfully made for everyday life · Imaanix</div></div></article>'}).join('');
+function htmlSafe(value){return String(value==null?'':value).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function safeHttp(value){try{var url=new URL(value);return /^https?:$/.test(url.protocol)?url.href:''}catch(e){return ''}}
+function safeInsightId(value,index){var id=String(value||('insight-'+index)).replace(/[^a-zA-Z0-9_-]/g,'-').slice(0,70);return id||('insight-'+index)}
+function imageMarkup(url,klass){var safe=safeHttp(url);return safe?'<img class="'+klass+'" src="'+htmlSafe(safe)+'" alt="" loading="lazy">':'<div class="'+klass+' insight-placeholder" aria-hidden="true">✦</div>'}
+function renderPublicInsights(list){var posts=(Array.isArray(list)?list:[]).map(function(p,i){var body=Array.isArray(p.body)?p.body:String(p.body||'').split(/\n\s*\n/).filter(Boolean);return {id:safeInsightId(p.id,i),category:String(p.category||'Imaanix Insights'),time:String(p.time||''),title:String(p.title||''),dek:String(p.summary||p.dek||''),image:safeHttp(p.image),body:body}}).filter(function(p){return p.title});
+ latestGrid.innerHTML=posts.slice(0,3).map(function(p){return '<a class="latest-card" href="#'+p.id+'">'+imageMarkup(p.image,'latest-art')+'<div class="latest-copy"><div class="insight-meta">'+htmlSafe(p.category)+'</div><h2>'+htmlSafe(p.title)+'</h2><span class="latest-read">Read more →</span></div></a>'}).join('')||'<p class="insights-empty">New insights are coming soon.</p>';
+ insightGrid.innerHTML=posts.map(function(p){return '<a class="insight-card" href="#'+p.id+'">'+imageMarkup(p.image,'insight-art')+'<div class="insight-copy"><div class="insight-meta">'+htmlSafe(p.category)+(p.time?' · '+htmlSafe(p.time):'')+'</div><h2>'+htmlSafe(p.title)+'</h2><p>'+htmlSafe(p.dek)+'</p><span class="insight-read">Read insight →</span></div></a>'}).join('')||'<p class="insights-empty">New insights are coming soon.</p>';
+ articlePages.innerHTML=posts.map(function(p){return '<article class="article-screen" id="'+p.id+'" aria-label="'+htmlSafe(p.title)+'"><div class="wrap privacy-nav"><a href="#home" class="logo"><svg><use href="#lg"/></svg>imaanix</a><a class="privacy-back" href="#insights">← Back to insights</a></div><div class="wrap article-content"><a class="article-back" href="#insights">← Back to insights</a><div class="article-art">'+(p.image?'<img src="'+htmlSafe(p.image)+'" alt="'+htmlSafe(p.title)+'">':'<div class="insight-placeholder">✦</div>')+'</div><div class="article-meta">'+htmlSafe(p.category)+(p.time?' · '+htmlSafe(p.time):'')+' · Imaanix Insights</div><h1>'+htmlSafe(p.title)+'</h1><p class="article-dek">'+htmlSafe(p.dek)+'</p><div class="article-body">'+p.body.map(function(paragraph){return '<p>'+htmlSafe(paragraph)+'</p>'}).join('')+'</div><div class="article-end">Thoughtfully made for everyday life · Imaanix</div></div></article>'}).join('')}
+function renderSocials(socials){document.querySelectorAll('[data-social]').forEach(function(el){var key=el.dataset.social;var link=safeHttp(socials&&socials[key]);var title={x:'X',instagram:'Instagram',facebook:'Facebook',linkedin:'LinkedIn'}[key]||'Social';if(link&&el.tagName==='BUTTON'){var a=document.createElement('a');a.className=el.className;a.dataset.social=key;a.innerHTML=el.innerHTML;el.replaceWith(a);el=a}if(link&&el.tagName==='A'){el.href=link;el.target='_blank';el.rel='noopener noreferrer';el.title=title;el.setAttribute('aria-label',title+' (opens in a new tab)')}else if(!link&&el.tagName==='A'){var button=document.createElement('button');button.type='button';button.className=el.className;button.dataset.social=key;button.title=title;button.setAttribute('aria-label',title+' (social link coming soon)');button.innerHTML=el.innerHTML;el.replaceWith(button)}})}
+function renderPrivacyPage(page){if(!page)return;var heading=document.querySelector('#privacy .privacy-heading');if(heading){var title=heading.querySelector('h1');if(title)title.innerHTML='Privacy <em>Policy</em>';var intro=heading.querySelector('p');if(intro)intro.textContent='Last updated: '+(page.updated||'')+'. '+(page.scope||'')}var host=document.querySelector('#privacy .privacy-acc');if(!host)return;host.innerHTML=(Array.isArray(page.sections)?page.sections:[]).map(function(section,index){var paragraphs=String(section.body||'').split(/\n\s*\n/).filter(Boolean);var list=[];var blocks=paragraphs.map(function(paragraph){var lines=paragraph.split('\n');if(lines.length&&lines.every(function(line){return /^\s*-\s+/.test(line)}))return '<ul>'+lines.map(function(line){return '<li>'+htmlSafe(line.replace(/^\s*-\s+/,''))+'</li>'}).join('')+'</ul>';return '<p>'+htmlSafe(paragraph).replace(/\n/g,'<br>')+'</p>'}).join('');return '<details><summary>'+htmlSafe(index+1)+'. '+htmlSafe(section.title)+'</summary>'+blocks+'</details>'}).join('')}
+function applyPageCopy(pages){if(!pages)return;var a=pages.about||{},c=pages.copy||{};function text(selector,value){var el=document.querySelector(selector);if(el&&value)el.textContent=value}text('#about .mvi:nth-child(1) h3',a.missionTitle);text('#about .mvi:nth-child(1) p',a.missionCopy);text('#about .mvi:nth-child(2) h3',a.visionTitle);text('#about .mvi:nth-child(2) p',a.visionCopy);text('.sm .hd h2',a.approachTitle);document.querySelectorAll('.sm .ap>div').forEach(function(card,index){text('.sm .ap>div:nth-child('+(index+1)+') h3',a['approach'+(index+1)+'Title']);text('.sm .ap>div:nth-child('+(index+1)+') p',a['approach'+(index+1)+'Copy'])});var productHeading=document.querySelector('#products .hd');if(productHeading){var title=productHeading.querySelector('h2');if(title&&c.productsTitle)title.textContent=c.productsTitle;var sub=productHeading.querySelector('p');if(sub&&c.productsSubtitle)sub.textContent=c.productsSubtitle}text('#insights .insights-heading h1',c.insightsTitle);text('#insights .insights-heading p',c.insightsSubtitle);var allHeading=document.querySelector('#all-insights .insights-heading h1');if(allHeading&&c.allInsightsTitle)allHeading.innerHTML='All <em>'+htmlSafe(c.allInsightsTitle.replace(/^All\s*/i,''))+'</em>';text('#all-insights .insights-heading p',c.allInsightsSubtitle);text('#careers .career-heading h1',c.careersTitle);text('#careers .career-heading p',c.careersIntro);text('#career-empty h2',c.careerEmptyTitle);text('#career-empty p',c.careerEmptyCopy);text('#contact-form .contact-intro h1',c.contactTitle);text('#contact-form .contact-intro p',c.contactIntro);text('#contact-form .contact-form-card h2',c.contactFormTitle);text('#contact-form .contact-form-card>p',c.contactFormCopy)}
+window.IMAANIX_APPLY_PUBLIC=function(data){if(!data||typeof data!=='object')return;var site=data.site||{};var hero=document.querySelector('.hero .s');if(hero&&site.heroCopy)hero.textContent=site.heroCopy;var cta=document.querySelector('#contact .cta');if(cta){if(site.ctaTitle)cta.querySelector('h2').textContent=site.ctaTitle;if(site.ctaCopy)cta.querySelector('p').textContent=site.ctaCopy}if(site.email){document.querySelectorAll('.contact-email').forEach(function(a){a.textContent=site.email;a.href='mailto:'+site.email})}var metrics=[site.downloads,site.countries,site.users];document.querySelectorAll('#impact .cn').forEach(function(el,i){if(metrics[i]){el.textContent=metrics[i];el.classList.remove('cn');el.removeAttribute('data-to')}});renderSocials(data.socials);if(Array.isArray(data.products)){document.querySelector('.pg').innerHTML=data.products.map(function(product){var live=product.status==='Live';var image=safeHttp(product.image);return '<article class="pc"'+(String(product.name||'').toLowerCase().includes('tasbih')?' data-product-link="digital-tasbih" role="link" tabindex="0" aria-label="Explore Digital Tasbih"':'')+'><span class="tg'+(live?'':' s')+'">'+(live?'LIVE':'SOON')+'</span><div>'+(image?'<img class="ai product-photo" src="'+htmlSafe(image)+'" alt="'+htmlSafe(product.name)+'" loading="lazy">':'<div class="ai a1">✦</div>')+'<h3>'+htmlSafe(product.name)+'</h3><p>'+htmlSafe(product.description)+'</p><a href="'+(String(product.name||'').toLowerCase().includes('tasbih')?'digital-tasbih/':'#contact-form')+'">'+(String(product.name||'').toLowerCase().includes('tasbih')?'Explore app →':'Learn more →')+'</a></div></article>'}).join('')}if(Array.isArray(data.insights))renderPublicInsights(data.insights);if(Array.isArray(data.careers)){var jobs=data.careers;var list=$('#career-openings');$('#career-empty').hidden=jobs.length>0;$('#career-preview').hidden=jobs.length>0;list.innerHTML=jobs.map(function(job){var url=safeHttp(job.applyUrl);return '<article class="opening"><div class="opening-meta"><span>'+htmlSafe(job.team)+'</span><span>'+htmlSafe(job.type)+'</span><span>'+htmlSafe(job.location)+'</span></div><h2>'+htmlSafe(job.title)+'</h2><p>'+htmlSafe(job.description)+'</p>'+(url?'<a class="opening-apply" href="'+htmlSafe(url)+'" target="_blank" rel="noopener noreferrer">View role &amp; apply →</a>':'')+'</article>'}).join('')}if(data.pages){renderPrivacyPage(data.pages.privacy);applyPageCopy(data.pages)}};
+document.querySelector('.pg').addEventListener('click',function(event){var card=event.target.closest('[data-product-link="digital-tasbih"]');if(card&&event.target.tagName!=='A')location.href='digital-tasbih/'});
+document.querySelector('.pg').addEventListener('keydown',function(event){if((event.key==='Enter'||event.key===' ')&&event.target.matches('[data-product-link="digital-tasbih"]')){event.preventDefault();location.href='digital-tasbih/'}});
+document.querySelectorAll('[data-product-year]').forEach(function(el){el.textContent=new Date().getFullYear()});var mn=$('#menu');$('#bg').onclick=function(){mn.classList.toggle('open')};mn.querySelectorAll('a').forEach(function(a){a.onclick=function(){mn.classList.remove('open')}});
+$('#contact-inquiry-form').addEventListener('submit',async function(event){
+  event.preventDefault();
+  var status=$('#contact-form-status');
+  var submit=event.currentTarget.querySelector('[type="submit"]');
+  if(event.currentTarget.elements.website.value){status.textContent='Your message could not be sent.';return}
+  if(!window.IMAANIX||typeof window.IMAANIX.submitInquiry!=='function'){
+    status.textContent='Your message was not sent: the secure Firebase inbox is not connected yet.';
+    return;
+  }
+  var data=new FormData(event.currentTarget);
+  var inquiry={name:data.get('name'),email:data.get('email'),organization:data.get('organization'),topic:data.get('topic'),message:data.get('message')};
+  submit.disabled=true;status.textContent='Sending your inquiry…';
+  try{await window.IMAANIX.submitInquiry(inquiry);event.currentTarget.reset();status.textContent='Thanks — your inquiry was sent to the Imaanix team.'}
+  catch(error){status.textContent='We could not send your message. Please try again in a moment.'}
+  finally{submit.disabled=false}
+});
+// tasbih beads
+var b='';for(var i=0;i<33;i++){var a=i/33*Math.PI*2-Math.PI/2;b+='<circle cx="'+(75+60*Math.cos(a)).toFixed(1)+'" cy="'+(75+60*Math.sin(a)).toFixed(1)+'" r="'+(i%11==0?5:3.6)+'" fill="'+(i%11==0?'#f0cf85':'#c9973f')+'"/>'}
+b+='<path d="M75 135v8" stroke="#c9973f" stroke-width="2"/><circle cx="75" cy="147" r="3" fill="#e0b865"/>';
+document.querySelectorAll('.beads').forEach(function(s){s.innerHTML=b});
+// mini phones for product cards
+var hero={tasbih:$('.ph.l'),prayer:$('.ph.r')};
+document.querySelectorAll('.mini').forEach(function(m){var t=m.dataset.m,p;
+ if(hero[t]){p=hero[t].cloneNode(true);p.className='ph'}
+ else{p=document.createElement('div');p.className='ph';
+  p.innerHTML=t=='quran'?'<div class="sc quran"><div class="nt"></div><div class="qh">Surah Al-Fatihah</div><div class="qlines"></div></div>':'<div class="sc dua"><div class="nt"></div><div class="h">🤲</div><b>Dua</b></div>'}
+ m.appendChild(p)});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');
+ e.target.querySelectorAll('.cn').forEach(function(c){var to=parseFloat(c.dataset.to);if(isNaN(to))return;var d=+c.dataset.dec||0,sf=c.dataset.suffix||'',k=0,st=40;var t=setInterval(function(){k++;var v=to*Math.min(k/st,1);c.textContent=v.toFixed(d)+(k>=st?sf:'');if(k>=st)clearInterval(t)},25)});
+ e.target.querySelectorAll('[data-n]').forEach(function(s){var n=+s.dataset.n,i=0;if(!n)return;var t=setInterval(function(){i++;s.textContent=i;if(i>=n)clearInterval(t)},450/n)});
+ io.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+})();
+</script>
+<script type="module" src="firebase-public.js"></script>
+</body>
+</html>

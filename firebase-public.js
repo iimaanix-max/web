@@ -20,7 +20,7 @@ if (!firebaseReady) {
         createdAt: serverTimestamp(),
         status: "unread"
       };
-      if (safe.name.length < 2 || safe.email.length < 5 || safe.topic.length < 2 || safe.message.length < 10) {
+      if (safe.name.length < 2 || safe.email.length < 5 || safe.message.length < 10) {
         throw new Error("Please check the required fields.");
       }
       await push(ref(db, "inquiries"), safe);
@@ -33,7 +33,7 @@ if (!firebaseReady) {
     }, error => {
       console.error("Imaanix public content could not be loaded:", error);
     });
-    if (formStatus) formStatus.textContent = "Your message will be sent to the Imaanix admin inbox.";
+    if (formStatus) formStatus.textContent = "We look forward to hearing from you.";
   } catch (error) {
     console.error("Firebase could not initialize:", error);
     if (formStatus) formStatus.textContent = "The secure inbox could not connect. Please try again later.";
