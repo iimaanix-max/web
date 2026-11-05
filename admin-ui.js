@@ -44,7 +44,7 @@ state.productFeatures=state.productFeatures||{};const initialTasbih=state.produc
 state.insights.forEach((post,index)=>{if(!post.body||!post.body.length)post.body=defaultBodies[index]||'';if(Array.isArray(post.body))post.body=post.body.join('\n\n')});
 function save(){try{localStorage.setItem(key,JSON.stringify(state));render();toast('Local draft saved in this browser')}catch(e){render();toast('Browser draft storage is full. Export or remove large images.') }}
 function esc(value){return String(value||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function safeUrl(value){return /^(https?:\/\/|\/|assets\/|data:image\/(png|jpeg|webp);base64,)/i.test(value||'')?value:''}
+function safeUrl(value){return /^(https?:\/\/|\/(?!\/)|assets\/|data:image\/(png|jpeg|webp);base64,)/i.test(value||'')?value:''}
 function toast(message){const el=document.getElementById('toast');el.textContent=message;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600)}
 const titles={overview:'Overview',content:'Website content',pages:'Pages',inquiries:'Contact inquiries',products:'Products','app-features':'App features & screens',insights:'Insights',careers:'Careers',socials:'Social links',security:'Security & setup'};
 document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));button.classList.add('active');document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById('view-'+button.dataset.view).classList.add('active');document.getElementById('page-title').textContent=titles[button.dataset.view]}));
