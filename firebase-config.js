@@ -13,6 +13,10 @@ export const firebaseConfig = {
 
 export const firebaseAdminEmail = "iimaanix@gmail.com";
 
+// Add the public reCAPTCHA site key after registering this web app in Firebase App Check.
+// Keep the matching secret key only in the reCAPTCHA/Firebase Console, never in this file.
+export const firebaseAppCheckSiteKey = "";
+
 export const firebaseReady = Boolean(
   firebaseConfig.databaseURL && firebaseAdminEmail
 );

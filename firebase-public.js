@@ -1,6 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
 import { getDatabase, onValue, push, ref, serverTimestamp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
-import { firebaseConfig, firebaseReady } from "./firebase-config.js";
+import { firebaseConfig, firebaseReady, firebaseAppCheckSiteKey } from "./firebase-config.js";
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@.]+$/;
 
 const formStatus = document.getElementById("contact-form-status");
 if (!firebaseReady) {
@@ -8,6 +10,11 @@ if (!firebaseReady) {
 } else {
   try {
     const app = initializeApp(firebaseConfig);
+    // Configure a site key before enabling App Check enforcement in Firebase Console.
+    if (firebaseAppCheckSiteKey) {
+      const { initializeAppCheck, ReCaptchaV3Provider } = await import("https://www.gstatic.com/firebasejs/13.1.0/firebase-app-check.js");
+      initializeAppCheck(app, { provider: new ReCaptchaV3Provider(firebaseAppCheckSiteKey), isTokenAutoRefreshEnabled: true });
+    }
     const db = getDatabase(app);
     const api = window.IMAANIX || (window.IMAANIX = {});
     api.submitInquiry = async ({ name, email, organization, topic, message }) => {
@@ -20,7 +27,7 @@ if (!firebaseReady) {
         createdAt: serverTimestamp(),
         status: "unread"
       };
-      if (safe.name.length < 2 || safe.email.length < 5 || safe.message.length < 10) {
+      if (safe.name.length < 2 || !EMAIL_RE.test(safe.email) || safe.message.length < 10) {
         throw new Error("Please check the required fields.");
       }
       await push(ref(db, "inquiries"), safe);

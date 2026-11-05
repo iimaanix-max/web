@@ -2,9 +2,13 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebas
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
 import { getDatabase, onValue, ref, set, remove, update } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-storage.js";
-import { firebaseConfig, firebaseAdminEmail } from "./firebase-config.js";
+import { firebaseConfig, firebaseAdminEmail, firebaseAppCheckSiteKey } from "./firebase-config.js";
 
 const app = initializeApp(firebaseConfig);
+if (firebaseAppCheckSiteKey) {
+  const { initializeAppCheck, ReCaptchaV3Provider } = await import("https://www.gstatic.com/firebasejs/13.1.0/firebase-app-check.js");
+  initializeAppCheck(app, { provider: new ReCaptchaV3Provider(firebaseAppCheckSiteKey), isTokenAutoRefreshEnabled: true });
+}
 const auth = getAuth(app);
 const db = getDatabase(app);
 const storage = getStorage(app);
@@ -40,7 +44,14 @@ function showInbox(items) {
   if (count) count.textContent = items.length + " message" + (items.length === 1 ? "" : "s");
   if (!items.length) { host.innerHTML = '<div class="empty">No inquiries yet. New website messages will appear here.</div>'; return; }
   const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-  host.innerHTML = items.map(item => '<article class="panel inquiry-card"><div class="panel-head"><h2>' + esc(item.name) + '</h2><span class="badge ' + (item.status === "unread" ? "soon" : "") + '">' + esc(item.status || "unread") + '</span></div><p><a href="mailto:' + esc(item.email) + '">' + esc(item.email) + '</a> · ' + esc(item.topic) + (item.organization ? ' · ' + esc(item.organization) : "") + '</p><p>' + esc(item.message).replace(/\n/g, "<br>") + '</p><small>' + (item.createdAt ? new Date(item.createdAt).toLocaleString() : "Time unavailable") + '</small><div class="form-actions">' + (item.status === "unread" ? '<button class="btn secondary small" data-inquiry-read="' + esc(item.id) + '">Mark read</button>' : "") + '<button class="btn danger small" data-inquiry-delete="' + esc(item.id) + '">Delete</button></div></article>').join("");
+  const emailAddress = value => /^[^\s@?&]+@[^\s@?&]+\.[^\s@?&]+$/.test(String(value || ""));
+  host.innerHTML = items.map(item => {
+    const safeEmail = String(item.email || "").trim();
+    const emailMarkup = emailAddress(safeEmail)
+      ? '<a href="mailto:' + encodeURIComponent(safeEmail) + '">' + esc(safeEmail) + '</a>'
+      : '<span>' + esc(safeEmail || "Invalid email address") + '</span>';
+    return '<article class="panel inquiry-card"><div class="panel-head"><h2>' + esc(item.name) + '</h2><span class="badge ' + (item.status === "unread" ? "soon" : "") + '">' + esc(item.status || "unread") + '</span></div><p>' + emailMarkup + ' · ' + esc(item.topic) + (item.organization ? ' · ' + esc(item.organization) : "") + '</p><p>' + esc(item.message).replace(/\n/g, "<br>") + '</p><small>' + (item.createdAt ? new Date(item.createdAt).toLocaleString() : "Time unavailable") + '</small><div class="form-actions">' + (item.status === "unread" ? '<button class="btn secondary small" data-inquiry-read="' + esc(item.id) + '">Mark read</button>' : "") + '<button class="btn danger small" data-inquiry-delete="' + esc(item.id) + '">Delete</button></div></article>';
+  }).join("");
   host.querySelectorAll("[data-inquiry-read]").forEach(button => button.onclick = async () => { try { await update(ref(db, "inquiries/" + button.dataset.inquiryRead), { status: "read" }); } catch (error) { alert(friendly(error)); } });
   host.querySelectorAll("[data-inquiry-delete]").forEach(button => button.onclick = async () => { if (!confirm("Permanently delete this inquiry?")) return; try { await remove(ref(db, "inquiries/" + button.dataset.inquiryDelete)); } catch (error) { alert(friendly(error)); } });
 }
@@ -64,7 +75,7 @@ document.getElementById("publish-data").addEventListener("click", async event =>
     const draft = window.IMAANIX_ADMIN_GET_DRAFT();
     async function resolveImage(value, folder, id) {
       if (!String(value || "").startsWith("data:image/")) return value || "";
-      const response = await fetch(value); const blob = await response.blob();
+      const response = await fetch(value, { signal: AbortSignal.timeout(10000) }); const blob = await response.blob();
       if (!/^image\/(png|jpeg|webp)$/.test(blob.type) || blob.size > 5 * 1024 * 1024) throw new Error("Images must be PNG, JPEG, or WEBP and smaller than 5 MB.");
       const ext = blob.type === "image/jpeg" ? "jpg" : blob.type.slice(6);
       const target = storageRef(storage, "public/" + folder + "/" + id + "." + ext);
