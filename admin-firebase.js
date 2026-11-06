@@ -112,8 +112,19 @@ document.getElementById("publish-data").addEventListener("click", async event =>
         })))
       })));
     }
+    const productPages = {};
+    for (const [productId, page] of Object.entries(draft.productPages || {})) {
+      productPages[productId] = {
+        ...page,
+        heroImage: await resolveImage(page.heroImage, "product-pages/" + productId, "hero"),
+        sections: await Promise.all((page.sections || []).map(async (section, index) => ({
+          ...section,
+          image: await resolveImage(section.image, "product-pages/" + productId, section.id || "section-" + index)
+        })))
+      };
+    }
     const insights = await Promise.all(draft.insights.map(async item => ({ ...item, image: await resolveImage(item.image, "insights", item.id) })));
-    const publicContent = { site: draft.site, pages: draft.pages, products, productFeatures, insights, careers: draft.careers, socials: draft.socials, digitalTasbihSocials: draft.digitalTasbihSocials, updatedAt: Date.now() };
+    const publicContent = { site: draft.site, pages: draft.pages, products, productFeatures, productPages, insights, careers: draft.careers, socials: draft.socials, digitalTasbihSocials: draft.digitalTasbihSocials, updatedAt: Date.now() };
     await set(ref(db, "publicContent"), publicContent);
     window.IMAANIX_ADMIN_IMPORT(publicContent);
     setBanner("Published to the website database.", true);

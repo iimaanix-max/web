@@ -184,6 +184,32 @@
         </div>
         <div class="form-actions"><button class="btn" type="submit">Save product draft</button><button class="btn secondary" type="button" data-cancel="product-editor">Cancel</button></div>
       </form>
+      <form class="editor" id="product-page-editor" hidden>
+        <div class="editor-head"><h2 id="product-page-form-title">Edit product page</h2><button class="btn secondary small" type="button" data-cancel="product-page-editor">Close</button></div>
+        <input type="hidden" name="productId">
+        <p class="help">Har product ka dedicated page yahan manage karein. Features aur app screenshots ke liye “App features &amp; screens” section use karein.</p>
+        <div class="panel-head" style="margin-top:18px"><h2>Page introduction</h2></div>
+        <div class="form-grid">
+          <div class="field"><label>Page URL slug</label><input name="slug" required placeholder="quran-kareem"></div>
+          <div class="field"><label>Eyebrow</label><input name="eyebrow" placeholder="A thoughtful Quran reading app"></div>
+          <div class="field full"><label>Page heading</label><input name="title" required></div>
+          <div class="field full"><label>Introduction</label><textarea name="intro" rows="3" placeholder="Describe this product page."></textarea></div>
+          <div class="field"><label>Hero image URL or asset path</label><input name="heroImage" placeholder="assets/product/hero.png"></div>
+          <div class="field"><label>Upload hero image</label><input name="heroImageFile" type="file" accept="image/png,image/jpeg,image/webp"><span class="help">PNG, JPEG, or WEBP; max 300 KB in the local draft. Firebase Storage upload happens when you publish.</span></div>
+        </div>
+        <div class="panel-head" style="margin-top:22px"><h2>Page sections</h2><button class="btn secondary small" id="add-product-page-section" type="button">＋ Add section</button></div>
+        <p class="help">Add or remove sections, text, and images for this product page. Features and screens are managed separately.</p>
+        <div class="item-list" id="product-page-sections-editor"></div>
+        <div class="panel-head" style="margin-top:22px"><h2>Privacy policy</h2></div>
+        <div class="form-grid">
+          <div class="field"><label>Policy title</label><input name="privacyTitle" placeholder="Privacy Policy"></div>
+          <div class="field"><label>Last updated</label><input name="privacyUpdated" placeholder="November 2026"></div>
+          <div class="field full"><label>Policy introduction</label><textarea name="privacyIntro" rows="2"></textarea></div>
+        </div>
+        <div class="panel-head" style="margin-top:16px"><h2>Privacy sections</h2><button class="btn secondary small" id="add-product-privacy-section" type="button">＋ Add section</button></div>
+        <div class="item-list" id="product-privacy-sections-editor"></div>
+        <div class="form-actions"><button class="btn" type="submit">Save product page draft</button><button class="btn secondary" type="button" data-cancel="product-page-editor">Cancel</button></div>
+      </form>
     </section>
 
     <section class="view" id="view-app-features">
