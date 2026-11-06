@@ -55,12 +55,10 @@
     <div class="brand-mark"><svg viewBox="0 0 40 44"><path d="M20 3v4M17 5h6M5 41V24Q5 14 20 8Q35 14 35 24v17M13 41V26Q13 20 20 17Q27 20 27 26v15"/></svg></div>
     <div class="eyebrow">SECURE WORKSPACE</div><h1>Sign in to Imaanix Admin</h1>
     <p>Use the Firebase Authentication account authorized for this workspace. New accounts cannot be created here.</p>
-    <div class="field"><label for="admin-email">Admin email</label><input id="admin-email" type="email" value="iimaanix@gmail.com" autocomplete="username" readonly></div>
+    <div class="field"><label for="admin-email">Admin email</label><input id="admin-email" type="email" autocomplete="username" required></div>
     <div class="field"><label for="admin-password">Password</label><input id="admin-password" type="password" autocomplete="current-password" required></div>
     <button class="btn" type="submit" id="admin-signin">Sign in securely →</button>
-    <button class="auth-reset" type="button" id="admin-reset">Send password reset email</button>
     <p class="auth-message" id="auth-message" role="status" aria-live="polite">Connecting to Firebase…</p>
-    <p class="help">Open this page from your HTTPS website or a local HTTP server. Firebase Authentication cannot sign in from a <code>file://</code> page.</p>
   </form>
 </section>
 <div class="app" id="admin-app" hidden>

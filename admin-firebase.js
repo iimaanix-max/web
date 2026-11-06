@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
 import { getDatabase, onValue, ref, set, remove, update } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-storage.js";
 import { firebaseConfig, firebaseAdminEmail, firebaseAppCheckSiteKey } from "./firebase-config.js";
@@ -28,14 +28,28 @@ function setBanner(text, connected = false) {
 }
 function friendly(error) {
   const code = error?.code || "";
-  if (code.includes("invalid-credential") || code.includes("wrong-password")) return "Email or password is incorrect.";
-  if (code.includes("user-not-found")) return "This email does not have a Firebase Authentication account.";
+  if (code.includes("invalid-credential") || code.includes("wrong-password") || code.includes("user-not-found") || code.includes("invalid-email")) return "Email ya password galat hai.";
   if (code.includes("unauthorized-domain")) return "Allow iimaanix-max.github.io in Firebase Authentication → Settings → Authorized domains, then try again.";
   if (code.includes("operation-not-allowed")) return "Enable Email/Password sign-in in Firebase Authentication → Sign-in method.";
   if (code.includes("too-many-requests")) return "Firebase temporarily paused sign-in attempts. Wait a little and try again.";
   if (code.includes("network-request-failed")) return "Network error. Check your connection and try again.";
   if (code.includes("permission-denied")) return "Firebase denied access. Deploy the supplied RTDB and Storage rules for this admin account.";
   return error?.message || "Firebase request failed.";
+}
+const loginLimitKey = "imaanix-admin-login-limit-v1";
+const loginWindowMs = 15 * 60 * 1000;
+const loginMaxAttempts = 5;
+function getLoginAttempts() {
+  try {
+    const data = JSON.parse(localStorage.getItem(loginLimitKey) || "null");
+    const now = Date.now();
+    return Array.isArray(data) ? data.filter(time => Number.isFinite(time) && now - time < loginWindowMs) : [];
+  } catch { return []; }
+}
+function saveLoginAttempt() {
+  const attempts = [...getLoginAttempts(), Date.now()];
+  try { localStorage.setItem(loginLimitKey, JSON.stringify(attempts)); } catch { /* Firebase also applies server-side abuse protection. */ }
+  return attempts;
 }
 function showInbox(items) {
   const host = document.getElementById("inquiries-list");
@@ -58,15 +72,21 @@ function showInbox(items) {
 
 loginForm.addEventListener("submit", async event => {
   event.preventDefault();
+  const attempts = getLoginAttempts();
+  if (attempts.length >= loginMaxAttempts) {
+    const waitMinutes = Math.max(1, Math.ceil((loginWindowMs - (Date.now() - attempts[0])) / 60000));
+    say("Too many attempts. Please try again in " + waitMinutes + " minutes.");
+    return;
+  }
   const button = document.getElementById("admin-signin"); button.disabled = true; say("Signing in…");
   try {
-    await signInWithEmailAndPassword(auth, firebaseAdminEmail, document.getElementById("admin-password").value);
-  } catch (error) { say(friendly(error)); }
+    await signInWithEmailAndPassword(auth, document.getElementById("admin-email").value.trim(), document.getElementById("admin-password").value);
+  } catch (error) {
+    const recentAttempts = saveLoginAttempt();
+    if (recentAttempts.length >= loginMaxAttempts) say("Too many attempts. Please try again in 15 minutes.");
+    else say(friendly(error));
+  }
   finally { button.disabled = false; }
-});
-document.getElementById("admin-reset").addEventListener("click", async () => {
-  try { await sendPasswordResetEmail(auth, firebaseAdminEmail); say("Password reset email sent to " + firebaseAdminEmail + "."); }
-  catch (error) { say(friendly(error)); }
 });
 document.getElementById("admin-signout").addEventListener("click", () => signOut(auth));
 document.getElementById("publish-data").addEventListener("click", async event => {
