@@ -135,13 +135,17 @@
       </form>
       <form class="panel" id="about-page-form" style="margin-top:16px">
         <div class="panel-head"><h2>About &amp; approach</h2></div>
+        <input type="hidden" name="contentVersion" value="2">
         <div class="form-grid">
+          <div class="field"><label>About eyebrow</label><input name="aboutEyebrow"></div><div class="field full"><label>About page heading</label><input name="aboutTitle"></div>
+          <div class="field full"><label>About introduction</label><textarea name="aboutIntro" rows="3"></textarea></div><div class="field full"><label>About background text</label><textarea name="aboutContext" rows="3"></textarea></div>
           <div class="field"><label>Mission heading</label><input name="missionTitle"></div><div class="field"><label>Vision heading</label><input name="visionTitle"></div>
           <div class="field full"><label>Mission text</label><textarea name="missionCopy"></textarea></div><div class="field full"><label>Vision text</label><textarea name="visionCopy"></textarea></div>
           <div class="field full"><label>Approach heading</label><input name="approachTitle"></div>
           <div class="field"><label>Principle 1 heading</label><input name="approach1Title"></div><div class="field"><label>Principle 1 text</label><textarea name="approach1Copy"></textarea></div>
           <div class="field"><label>Principle 2 heading</label><input name="approach2Title"></div><div class="field"><label>Principle 2 text</label><textarea name="approach2Copy"></textarea></div>
           <div class="field"><label>Principle 3 heading</label><input name="approach3Title"></div><div class="field"><label>Principle 3 text</label><textarea name="approach3Copy"></textarea></div>
+          <div class="field full"><label>Closing line</label><input name="closingLine"></div>
         </div>
         <div class="form-actions"><button class="btn" type="submit">Save About page draft</button></div>
       </form>
