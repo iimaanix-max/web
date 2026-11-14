@@ -18,6 +18,37 @@ const message = document.getElementById("auth-message");
 const banner = document.getElementById("admin-status-banner");
 const loginForm = document.getElementById("admin-login-form");
 let stopInbox = null;
+let stopBlockedIps = null;
+const IP_ADMIN_ENDPOINT = "https://asia-southeast1-imaanix.cloudfunctions.net/manageContactIp";
+async function manageIp(action, ip) {
+  const user = auth.currentUser;
+  if (!user) throw new Error("Sign in again to manage blocked IPs.");
+  const response = await fetch(IP_ADMIN_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + await user.getIdToken() }, body: JSON.stringify({ action, ip }) });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(result.error || "Could not update IP block.");
+}
+function renderBlockedIps(snapshot) {
+  const host = document.getElementById("blocked-ips-list"); if (!host) return;
+  host.replaceChildren();
+  const rows = snapshot.exists() ? Object.entries(snapshot.val()).map(([key, value]) => ({ key, ...(value || {}) })) : [];
+  if (!rows.length) { host.textContent = "No IP addresses are blocked."; return; }
+  for (const row of rows) {
+    const line = document.createElement("div"); line.className = "item";
+    const info = document.createElement("div"); info.className = "item-info";
+    const ip = document.createElement("b"); ip.textContent = row.ip || "Unknown IP";
+    const detail = document.createElement("small"); detail.textContent = (row.reason === "admin" ? "Blocked by admin" : "Temporary rate-limit block") + " · " + (row.blockedUntil ? new Date(row.blockedUntil).toLocaleString() : "No expiry");
+    info.append(ip, detail);
+    const button = document.createElement("button"); button.className = "btn secondary small"; button.type = "button"; button.textContent = "Unblock";
+    button.onclick = async () => { try { await manageIp("unblock", row.ip); } catch (error) { alert(error.message); } };
+    line.append(info, button); host.append(line);
+  }
+}
+const ipBlockForm = document.getElementById("ip-block-form");
+ipBlockForm?.addEventListener("submit", async event => {
+  event.preventDefault(); const ip = document.getElementById("ip-block-address").value.trim(); const status = document.getElementById("ip-block-status");
+  try { await manageIp("block", ip); status.textContent = "IP blocked."; ipBlockForm.reset(); } catch (error) { status.textContent = error.message; }
+});
+
 
 function say(text) { if (message) message.textContent = text; }
 function setBanner(text, connected = false) {
@@ -25,6 +56,13 @@ function setBanner(text, connected = false) {
   label.textContent = "Firebase admin:";
   banner.replaceChildren(label, document.createTextNode(" " + text));
   banner.classList.toggle("connected", connected);
+}
+function setPublishStatus(state, text) {
+  const status = document.getElementById("publish-status");
+  if (!status) return;
+  status.dataset.state = state;
+  status.textContent = text;
+  status.hidden = false;
 }
 function friendly(error) {
   const code = error?.code || "";
@@ -90,7 +128,8 @@ loginForm.addEventListener("submit", async event => {
 });
 document.getElementById("admin-signout").addEventListener("click", () => signOut(auth));
 document.getElementById("publish-data").addEventListener("click", async event => {
-  const button = event.currentTarget; button.disabled = true; setBanner("Publishing content…");
+  const button = event.currentTarget; button.disabled = true; button.textContent = "Publishing…";
+  setPublishStatus("pending", "Publishing the latest website content…"); setBanner("Publishing content…");
   try {
     const draft = window.IMAANIX_ADMIN_GET_DRAFT();
     async function resolveImage(value, folder, id) {
@@ -126,15 +165,20 @@ document.getElementById("publish-data").addEventListener("click", async event =>
     const insights = await Promise.all(draft.insights.map(async item => ({ ...item, image: await resolveImage(item.image, "insights", item.id) })));
     const publicContent = { site: draft.site, pages: draft.pages, products, productFeatures, productPages, insights, careers: draft.careers, socials: draft.socials, digitalTasbihSocials: draft.digitalTasbihSocials, updatedAt: Date.now() };
     await set(ref(db, "publicContent"), publicContent);
-    window.IMAANIX_ADMIN_IMPORT(publicContent);
     setBanner("Published to the website database.", true);
-    alert("Website content published successfully.");
-  } catch (error) { setBanner(friendly(error)); alert("Publish failed: " + friendly(error)); }
-  finally { button.disabled = false; }
+    setPublishStatus("success", "Successfully published to the website database. Refresh the public page to see the latest content. HTML or code changes still need a separate site deployment.");
+    try { window.IMAANIX_ADMIN_IMPORT(publicContent); }
+    catch (error) { setPublishStatus("warning", "Published successfully, but the admin preview could not refresh: " + friendly(error)); }
+  } catch (error) {
+    const detail = friendly(error);
+    setBanner("Publish failed: " + detail);
+    setPublishStatus("error", "Publish failed: " + detail);
+  } finally { button.disabled = false; button.textContent = "Publish to site"; }
 });
 
 onAuthStateChanged(auth, async user => {
   if (stopInbox) { stopInbox(); stopInbox = null; }
+  if (stopBlockedIps) { stopBlockedIps(); stopBlockedIps = null; }
   if (!user) { appPanel.hidden = true; gate.hidden = false; setBanner("Sign in required."); return; }
   if (user.email?.toLowerCase() !== firebaseAdminEmail.toLowerCase()) {
     await signOut(auth); appPanel.hidden = true; gate.hidden = false;
@@ -148,6 +192,7 @@ onAuthStateChanged(auth, async user => {
     if (snapshot.exists()) window.IMAANIX_ADMIN_IMPORT(snapshot.val());
     setBanner(snapshot.exists() ? "Signed in · live content loaded." : "Signed in · no published content yet.", true);
   }, error => setBanner(friendly(error)));
+  stopBlockedIps = onValue(ref(db, "contactAbuse/blocked"), renderBlockedIps, error => { document.getElementById("blocked-ips-list").textContent = friendly(error); });
   stopInbox = onValue(ref(db, "inquiries"), snapshot => {
     const rows = snapshot.exists() ? Object.entries(snapshot.val()).map(([id, item]) => ({ id, ...item })).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)) : [];
     showInbox(rows);

@@ -3,15 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex,nofollow"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; script-src 'self' https://www.gstatic.com https://www.google.com https://www.recaptcha.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https: data: blob:; connect-src 'self' data: https://*.googleapis.com https://*.firebaseio.com https://*.firebasedatabase.app https://*.firebaseapp.com https://*.firebasestorage.app https://*.googleusercontent.com https://www.gstatic.com https://www.google.com https://www.recaptcha.net https://api.aladhan.com https://geocoding-api.open-meteo.com https://ipwho.is https://api.bigdatacloud.net; frame-src https://www.google.com https://www.recaptcha.net; upgrade-insecure-requests">
+<meta name="robots" content="noindex,nofollow"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; script-src 'self' https://www.gstatic.com https://www.google.com https://www.recaptcha.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https: data: blob:; connect-src 'self' data: https://*.googleapis.com https://*.firebaseio.com https://*.firebasedatabase.app https://*.firebaseapp.com https://*.firebasestorage.app https://*.cloudfunctions.net https://*.googleusercontent.com https://www.gstatic.com https://www.google.com https://www.recaptcha.net https://api.aladhan.com https://geocoding-api.open-meteo.com https://ipwho.is https://api.bigdatacloud.net; frame-src https://www.google.com https://www.recaptcha.net; upgrade-insecure-requests">
 <title>Imaanix Admin</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 44'%3E%3Cpath d='M20 3v4M17 5h6M5 41V24Q5 14 20 8Q35 14 35 24v17M13 41V26Q13 20 20 17Q27 20 27 26v15' fill='none' stroke='%23c9973f' stroke-width='2.7' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--green:#103d2b;--green2:#09291d;--gold:#c9973f;--gold-light:#f4e3bb;--paper:#f6f4ef;--white:#fff;--ink:#17291f;--muted:#748078;--line:#e6e8e2;--red:#b83d3d;--shadow:0 10px 32px rgba(21,39,28,.07)}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-size:14px;line-height:1.5}button,input,textarea,select{font:inherit}button{cursor:pointer}
-.preview-banner{display:none;padding:10px 18px;background:#fff3d5;border-bottom:1px solid #ead7a8;color:#604817;text-align:center;font-size:12px}.preview-banner b{margin-right:5px}
+.preview-banner{padding:10px 18px;background:#fff3d5;border-bottom:1px solid #ead7a8;color:#604817;text-align:center;font-size:12px}.preview-banner b{margin-right:5px}
 .preview-banner.connected{background:#eef6ef;border-color:#cfe2d1;color:#326443}
 .app[hidden],.auth-gate[hidden]{display:none!important}
 .auth-gate{min-height:calc(100vh - 40px);display:grid;place-items:center;padding:28px 16px}
@@ -32,6 +31,7 @@
 .nav{display:grid;gap:5px}.nav button{display:flex;align-items:center;gap:12px;width:100%;padding:11px 12px;text-align:left;color:#bdc9c1;background:none;border:0;border-radius:10px;transition:.18s}.nav button:hover,.nav button.active{background:#174b35;color:#fff}.nav button.active{box-shadow:inset 3px 0 var(--gold)}.nav .icon{width:18px;text-align:center;color:var(--gold-light);font-size:16px}
 .side-foot{margin-top:auto;border-top:1px solid rgba(255,255,255,.12);padding:16px 10px 4px;color:#91a197;font-size:11px}.site-link{color:var(--gold-light);display:inline-block;margin-top:9px}
 .main{min-width:0;padding:26px clamp(18px,3vw,42px) 50px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:28px}.topbar h1{margin:0;font:600 25px Outfit,sans-serif;color:var(--green)}.top-actions{display:flex;align-items:center;gap:10px}.mode{display:inline-flex;gap:7px;align-items:center;border:1px solid #ead7a8;background:#fff8e8;color:#77591d;border-radius:999px;padding:7px 11px;font-size:11px;font-weight:600}.mode i{width:7px;height:7px;border-radius:50%;background:#d59a31}
+.publish-status{margin:-12px 0 22px;padding:12px 15px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);font-size:13px;font-weight:600}.publish-status[hidden]{display:none}.publish-status[data-state="pending"]{background:#fff8e8;border-color:#efdfbb;color:#71571f}.publish-status[data-state="success"]{background:#eff8f1;border-color:#d0e7d4;color:#306842}.publish-status[data-state="error"]{background:#fff3f1;border-color:#f1d1ca;color:#7a302a}.publish-status[data-state="warning"]{background:#fff8e8;border-color:#efdfbb;color:#71571f}
 .view{display:none}.view.active{display:block}.eyebrow{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);font-weight:700}.intro{margin:0 0 22px;color:var(--muted)}.intro strong{color:var(--ink)}
 .cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:22px}.metric,.panel,.editor{background:var(--white);border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow)}.metric{padding:18px}.metric-label{font-size:12px;color:var(--muted)}.metric-value{margin-top:8px;color:var(--green);font:600 26px Outfit,sans-serif}.metric-note{font-size:11px;color:#89938c;margin-top:3px}
 .grid-two{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}.panel{padding:20px}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}.panel h2,.editor h2{font:600 16px Outfit,sans-serif;color:var(--green);margin:0}.panel p{color:var(--muted);margin:6px 0 0;font-size:12px}.status-row{display:flex;align-items:center;gap:10px;padding:13px 0;border-top:1px solid var(--line)}.status-row:first-of-type{border-top:0}.status-dot{width:8px;height:8px;flex:none;border-radius:50%;background:#d59a31}.status-dot.green{background:#4d9b6e}.status-row span:last-child{margin-left:auto;color:var(--muted);font-size:11px;text-align:right}
@@ -51,15 +51,16 @@
 </style>
 </head>
 <body>
-<div class="preview-banner" id="admin-status-banner" aria-hidden="true"><b>Firebase admin:</b> Checking secure connection…</div>
+<div class="preview-banner" id="admin-status-banner"><b>Firebase admin:</b> Checking secure connection…</div>
 <section class="auth-gate" id="auth-gate">
   <form class="auth-card" id="admin-login-form">
     <div class="brand-mark"><svg viewBox="0 0 40 44"><path d="M20 3v4M17 5h6M5 41V24Q5 14 20 8Q35 14 35 24v17M13 41V26Q13 20 20 17Q27 20 27 26v15"/></svg></div>
     <div class="eyebrow">SECURE WORKSPACE</div><h1>Sign in to Imaanix Admin</h1>
+    <p>Use the Firebase Authentication account authorized for this workspace. New accounts cannot be created here.</p>
     <div class="field"><label for="admin-email">Admin email</label><input id="admin-email" type="email" autocomplete="username" required></div>
     <div class="field"><label for="admin-password">Password</label><input id="admin-password" type="password" autocomplete="current-password" required></div>
     <button class="btn" type="submit" id="admin-signin">Sign in securely →</button>
-    <p class="auth-message" id="auth-message" role="status" aria-live="polite"></p>
+    <p class="auth-message" id="auth-message" role="status" aria-live="polite">Connecting to Firebase…</p>
   </form>
 </section>
 <div class="app" id="admin-app" hidden>
@@ -82,6 +83,7 @@
   </aside>
   <main class="main">
     <header class="topbar"><h1 id="page-title">Overview</h1><div class="top-actions"><span class="mode"><i></i><span id="admin-session-label">Preview workspace</span></span><button class="btn secondary small" id="export-data" type="button">Export draft</button><button class="btn small" id="publish-data" type="button">Publish to site</button><button class="btn secondary small" id="admin-signout" type="button">Sign out</button></div></header>
+    <p class="publish-status" id="publish-status" role="status" aria-live="polite" aria-atomic="true" hidden></p>
 
     <section class="view active" id="view-overview">
       <p class="intro">Manage the Imaanix website from one place. <strong>Save edits as drafts, then publish them to the live site.</strong></p>
@@ -101,7 +103,7 @@
     </section>
 
     <section class="view" id="view-content">
-      <p class="intro">Edit the public homepage copy and figures. Values are saved as a local draft in this preview.</p>
+      <p class="intro">Edit the public homepage copy and figures. Publish to site includes the current values in these fields and your saved drafts.</p>
       <form class="panel" id="site-form">
         <div class="panel-head"><h2>Homepage copy</h2></div>
         <div class="form-grid">
@@ -135,17 +137,13 @@
       </form>
       <form class="panel" id="about-page-form" style="margin-top:16px">
         <div class="panel-head"><h2>About &amp; approach</h2></div>
-        <input type="hidden" name="contentVersion" value="2">
         <div class="form-grid">
-          <div class="field"><label>About eyebrow</label><input name="aboutEyebrow"></div><div class="field full"><label>About page heading</label><input name="aboutTitle"></div>
-          <div class="field full"><label>About introduction</label><textarea name="aboutIntro" rows="3"></textarea></div><div class="field full"><label>About background text</label><textarea name="aboutContext" rows="3"></textarea></div>
           <div class="field"><label>Mission heading</label><input name="missionTitle"></div><div class="field"><label>Vision heading</label><input name="visionTitle"></div>
           <div class="field full"><label>Mission text</label><textarea name="missionCopy"></textarea></div><div class="field full"><label>Vision text</label><textarea name="visionCopy"></textarea></div>
           <div class="field full"><label>Approach heading</label><input name="approachTitle"></div>
           <div class="field"><label>Principle 1 heading</label><input name="approach1Title"></div><div class="field"><label>Principle 1 text</label><textarea name="approach1Copy"></textarea></div>
           <div class="field"><label>Principle 2 heading</label><input name="approach2Title"></div><div class="field"><label>Principle 2 text</label><textarea name="approach2Copy"></textarea></div>
           <div class="field"><label>Principle 3 heading</label><input name="approach3Title"></div><div class="field"><label>Principle 3 text</label><textarea name="approach3Copy"></textarea></div>
-          <div class="field full"><label>Closing line</label><input name="closingLine"></div>
         </div>
         <div class="form-actions"><button class="btn" type="submit">Save About page draft</button></div>
       </form>
@@ -166,6 +164,7 @@
 
     <section class="view" id="view-inquiries">
       <p class="intro">Messages submitted through the website appear here. Only the authorized admin account can read them.</p>
+      <div class="panel" style="margin:16px 0"><div class="panel-head"><h2>Blocked IP addresses</h2></div><p>Block an address indefinitely, or unblock it to restore contact form access.</p><form id="ip-block-form" class="form-actions" style="margin-top:12px"><input id="ip-block-address" type="text" inputmode="text" autocomplete="off" placeholder="Example: 203.0.113.10" aria-label="IP address to block" required><button class="btn danger small" type="submit">Block IP</button><span id="ip-block-status" role="status"></span></form><div class="item-list" id="blocked-ips-list"><div class="empty">Sign in to view blocked IPs.</div></div></div>
       <div class="item-list" id="inquiries-list"><div class="empty">Sign in to load the inbox.</div></div>
     </section>
 
@@ -189,6 +188,7 @@
         </div>
         <div class="form-actions"><button class="btn" type="submit">Save product draft</button><button class="btn secondary" type="button" data-cancel="product-editor">Cancel</button></div>
       </form>
+
       <form class="editor" id="product-page-editor" hidden>
         <div class="editor-head"><h2 id="product-page-form-title">Edit product page</h2><button class="btn secondary small" type="button" data-cancel="product-page-editor">Close</button></div>
         <input type="hidden" name="productId">
@@ -216,6 +216,7 @@
         <div class="item-list" id="product-privacy-sections-editor"></div>
         <div class="form-actions"><button class="btn" type="submit">Save product page draft</button><button class="btn secondary" type="button" data-cancel="product-page-editor">Cancel</button></div>
       </form>
+
     </section>
 
     <section class="view" id="view-app-features">
