@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, reload, setPersistence, inMemoryPersistence } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, reload, setPersistence, inMemoryPersistence, sendEmailVerification } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
 import { getDatabase, onValue, ref, set, remove, update } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-storage.js";
 import { firebaseConfig, firebaseAdminEmail, firebaseAppCheckSiteKey } from "./firebase-config.js";
@@ -65,6 +65,28 @@ function setPublishStatus(state, text) {
   status.dataset.state = state;
   status.textContent = text;
   status.hidden = false;
+}
+function showVerificationEmailAction(user) {
+  const status = document.getElementById("publish-status");
+  if (!status) return;
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "btn secondary small";
+  button.textContent = "Send verification email";
+  button.addEventListener("click", async () => {
+    button.disabled = true;
+    button.textContent = "Sending…";
+    try {
+      await sendEmailVerification(user);
+      setPublishStatus("success", "Verification email sent to " + user.email + ". Open that email and click its verification link, then return here and publish again.");
+    } catch (error) {
+      button.disabled = false;
+      button.textContent = "Send verification email";
+      setPublishStatus("error", "Could not send the verification email: " + friendly(error));
+      document.getElementById("publish-status")?.append(" ", button);
+    }
+  });
+  status.append(" ", button);
 }
 function withTimeout(promise, label, ms = 30000) {
   let timer;
@@ -142,7 +164,11 @@ document.getElementById("publish-data").addEventListener("click", async event =>
     if (!user) throw new Error("Your Firebase admin session expired. Sign in again before publishing.");
     await reload(user);
     await user.getIdToken(true);
-    if (!user.emailVerified) throw new Error("The admin Firebase email is not verified. Verify the account in Firebase Authentication, then sign out and sign in again.");
+    if (!user.emailVerified) {
+      const error = new Error("This Firebase account's email is not verified yet.");
+      error.code = "admin/email-not-verified";
+      throw error;
+    }
     const draft = window.IMAANIX_ADMIN_GET_DRAFT();
     async function resolveImage(value, folder, id) {
       if (!String(value || "").startsWith("data:image/")) return value || "";
@@ -188,6 +214,7 @@ document.getElementById("publish-data").addEventListener("click", async event =>
     const detail = friendly(error);
     setBanner("Publish failed: " + detail);
     setPublishStatus("error", "Publish failed: " + detail);
+    if (error?.code === "admin/email-not-verified" && auth.currentUser) showVerificationEmailAction(auth.currentUser);
   } finally { button.disabled = false; button.textContent = "Publish to site"; }
 });
 
