@@ -64,6 +64,10 @@ function setPublishStatus(state, text) {
   status.textContent = text;
   status.hidden = false;
 }
+function withTimeout(promise, label, ms = 30000) {
+  let timer;
+  return Promise.race([promise, new Promise((_, reject) => { timer = setTimeout(() => reject(new Error(label + " timed out after 30 seconds. Check the connection and try publishing again.")), ms); })]).finally(() => clearTimeout(timer));
+}
 function friendly(error) {
   const code = error?.code || "";
   if (code.includes("invalid-credential") || code.includes("wrong-password") || code.includes("user-not-found") || code.includes("invalid-email")) return "Email ya password galat hai.";
@@ -128,17 +132,19 @@ loginForm.addEventListener("submit", async event => {
 });
 document.getElementById("admin-signout").addEventListener("click", () => signOut(auth));
 document.getElementById("publish-data").addEventListener("click", async event => {
+  if (event.currentTarget.disabled) return;
   const button = event.currentTarget; button.disabled = true; button.textContent = "Publishing…";
   setPublishStatus("pending", "Publishing the latest website content…"); setBanner("Publishing content…");
   try {
     const draft = window.IMAANIX_ADMIN_GET_DRAFT();
     async function resolveImage(value, folder, id) {
       if (!String(value || "").startsWith("data:image/")) return value || "";
+      setPublishStatus("pending", "Uploading images… This can take a little while.");
       const response = await fetch(value, { signal: AbortSignal.timeout(10000) }); const blob = await response.blob();
       if (!/^image\/(png|jpeg|webp)$/.test(blob.type) || blob.size > 5 * 1024 * 1024) throw new Error("Images must be PNG, JPEG, or WEBP and smaller than 5 MB.");
       const ext = blob.type === "image/jpeg" ? "jpg" : blob.type.slice(6);
       const target = storageRef(storage, "public/" + folder + "/" + id + "." + ext);
-      await uploadBytes(target, blob, { contentType: blob.type }); return await getDownloadURL(target);
+      await withTimeout(uploadBytes(target, blob, { contentType: blob.type }), "Image upload"); return await withTimeout(getDownloadURL(target), "Image URL lookup");
     }
     const products = await Promise.all(draft.products.map(async item => ({ ...item, image: await resolveImage(item.image, "products", item.id) })));
     const productFeatures = {};
@@ -164,7 +170,8 @@ document.getElementById("publish-data").addEventListener("click", async event =>
     }
     const insights = await Promise.all(draft.insights.map(async item => ({ ...item, image: await resolveImage(item.image, "insights", item.id) })));
     const publicContent = { site: draft.site, pages: draft.pages, products, productFeatures, productPages, insights, careers: draft.careers, socials: draft.socials, digitalTasbihSocials: draft.digitalTasbihSocials, updatedAt: Date.now() };
-    await set(ref(db, "publicContent"), publicContent);
+    setPublishStatus("pending", "Saving the latest content to Firebase…");
+    await withTimeout(set(ref(db, "publicContent"), publicContent), "Firebase publish");
     setBanner("Published to the website database.", true);
     setPublishStatus("success", "Successfully published to the website database. Refresh the public page to see the latest content. HTML or code changes still need a separate site deployment.");
     try { window.IMAANIX_ADMIN_IMPORT(publicContent); }

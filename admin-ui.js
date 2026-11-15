@@ -51,7 +51,9 @@ function toast(message){const el=document.getElementById('toast');el.textContent
 const titles={overview:'Overview',content:'Website content',pages:'Pages',inquiries:'Contact inquiries',products:'Products','app-features':'App features & screens',insights:'Insights',careers:'Careers',socials:'Social links',security:'Security & setup'};
 document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));button.classList.add('active');document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById('view-'+button.dataset.view).classList.add('active');document.getElementById('page-title').textContent=titles[button.dataset.view]}));
 document.querySelectorAll('[data-jump]').forEach(button=>button.addEventListener('click',()=>document.querySelector('[data-view="'+button.dataset.jump+'"]').click()));
-function fillForm(form,obj){Object.keys(obj).forEach(name=>{if(form.elements[name])form.elements[name].value=Array.isArray(obj[name])?obj[name].join('\n\n'):(obj[name]||'')})}
+function syncImpactToggle(){const input=document.getElementById('impact-visible'),toggle=document.getElementById('impact-visible-toggle');if(!input||!toggle)return;const shown=input.value!=='false';toggle.setAttribute('aria-checked',String(shown));toggle.querySelector('.switch-state').textContent=shown?'Shown on website':'Hidden from website'}
+document.getElementById('impact-visible-toggle')?.addEventListener('click',()=>{const input=document.getElementById('impact-visible');input.value=input.value==='false'?'true':'false';syncImpactToggle()});
+function fillForm(form,obj){Object.keys(obj).forEach(name=>{if(form.elements[name])form.elements[name].value=Array.isArray(obj[name])?obj[name].join('\n\n'):(obj[name]||'')});if(form.id==='site-form')syncImpactToggle()}
 function renderPages(){
  fillForm(document.getElementById('privacy-page-form'),state.pages.privacy);
  fillForm(document.getElementById('about-page-form'),state.pages.about);

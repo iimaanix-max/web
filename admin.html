@@ -48,6 +48,7 @@
 .toast{position:fixed;right:22px;bottom:22px;z-index:10;padding:12px 16px;background:#173d2d;color:white;border-radius:10px;box-shadow:var(--shadow);opacity:0;transform:translateY(12px);pointer-events:none;transition:.2s}.toast.show{opacity:1;transform:none}
 @media(max-width:1100px){.app{grid-template-columns:210px 1fr}.cards{grid-template-columns:repeat(2,1fr)}.grid-two{grid-template-columns:1fr}}
 @media(max-width:700px){.app{grid-template-columns:1fr}.sidebar{padding:12px;gap:10px}.brand{padding:4px 7px}.workspace,.side-foot{display:none}.nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}.nav button{justify-content:center;padding:9px 5px;font-size:10px;gap:5px;flex-direction:column}.nav .icon{font-size:15px}.main{padding:19px 14px 35px}.topbar{align-items:flex-start;flex-direction:column;margin-bottom:18px}.topbar h1{font-size:22px}.cards{gap:9px}.metric{padding:13px}.metric-value{font-size:22px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:1}.social-row{grid-template-columns:95px 1fr}.item{align-items:flex-start}.item-actions{flex-direction:column}.preview-banner{font-size:10px}}
+.switch{display:flex;align-items:center;gap:10px;width:max-content;min-height:42px;padding:0;border:0;background:none;color:var(--ink);font-weight:600;font-size:12px;text-align:left}.switch-track{width:42px;height:24px;padding:3px;border-radius:999px;background:#aab2ac;transition:background .18s;flex:none}.switch-thumb{display:block;width:18px;height:18px;border-radius:50%;background:white;box-shadow:0 1px 3px #0003;transition:transform .18s}.switch[aria-checked="true"] .switch-track{background:var(--green)}.switch[aria-checked="true"] .switch-thumb{transform:translateX(18px)}.switch:focus-visible{outline:3px solid rgba(201,151,63,.45);outline-offset:3px;border-radius:5px}
 </style>
 </head>
 <body>
@@ -114,7 +115,7 @@
         </div>
         <div class="panel-head" style="margin-top:22px"><h2>Public impact figures</h2></div>
         <div class="form-grid">
-          <div class="field"><label for="impact-visible">Show impact figures on website</label><select id="impact-visible" name="impactVisible"><option value="true">On — show section</option><option value="false">Off — hide section</option></select></div>
+          <div class="field"><label id="impact-visible-label">Show impact figures on website</label><input id="impact-visible" name="impactVisible" type="hidden" value="true"><button class="switch" id="impact-visible-toggle" type="button" role="switch" aria-checked="true" aria-labelledby="impact-visible-label"><span class="switch-track"><span class="switch-thumb"></span></span><span class="switch-state">Shown on website</span></button></div>
           <div class="field"><label for="metric-downloads">Application downloads</label><input id="metric-downloads" name="downloads"></div>
           <div class="field"><label for="metric-users">Daily active users</label><input id="metric-users" name="users"></div>
           <div class="field"><label for="metric-countries">Countries reached</label><input id="metric-countries" name="countries"></div>
