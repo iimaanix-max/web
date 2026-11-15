@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, reload, setPersistence, inMemoryPersistence } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
 import { getDatabase, onValue, ref, set, remove, update } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-storage.js";
 import { firebaseConfig, firebaseAdminEmail, firebaseAppCheckSiteKey } from "./firebase-config.js";
@@ -10,6 +10,8 @@ if (firebaseAppCheckSiteKey) {
   initializeAppCheck(app, { provider: new ReCaptchaV3Provider(firebaseAppCheckSiteKey), isTokenAutoRefreshEnabled: true });
 }
 const auth = getAuth(app);
+await setPersistence(auth, inMemoryPersistence);
+await signOut(auth);
 const db = getDatabase(app);
 const storage = getStorage(app);
 const gate = document.getElementById("auth-gate");
@@ -138,6 +140,8 @@ document.getElementById("publish-data").addEventListener("click", async event =>
   try {
     const user = auth.currentUser;
     if (!user) throw new Error("Your Firebase admin session expired. Sign in again before publishing.");
+    await reload(user);
+    await user.getIdToken(true);
     if (!user.emailVerified) throw new Error("The admin Firebase email is not verified. Verify the account in Firebase Authentication, then sign out and sign in again.");
     const draft = window.IMAANIX_ADMIN_GET_DRAFT();
     async function resolveImage(value, folder, id) {
