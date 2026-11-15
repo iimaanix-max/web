@@ -136,6 +136,9 @@ document.getElementById("publish-data").addEventListener("click", async event =>
   const button = event.currentTarget; button.disabled = true; button.textContent = "Publishing…";
   setPublishStatus("pending", "Publishing the latest website content…"); setBanner("Publishing content…");
   try {
+    const user = auth.currentUser;
+    if (!user) throw new Error("Your Firebase admin session expired. Sign in again before publishing.");
+    if (!user.emailVerified) throw new Error("The admin Firebase email is not verified. Verify the account in Firebase Authentication, then sign out and sign in again.");
     const draft = window.IMAANIX_ADMIN_GET_DRAFT();
     async function resolveImage(value, folder, id) {
       if (!String(value || "").startsWith("data:image/")) return value || "";
@@ -177,6 +180,7 @@ document.getElementById("publish-data").addEventListener("click", async event =>
     try { window.IMAANIX_ADMIN_IMPORT(publicContent); }
     catch (error) { setPublishStatus("warning", "Published successfully, but the admin preview could not refresh: " + friendly(error)); }
   } catch (error) {
+    console.error("Imaanix publish failed", error);
     const detail = friendly(error);
     setBanner("Publish failed: " + detail);
     setPublishStatus("error", "Publish failed: " + detail);
