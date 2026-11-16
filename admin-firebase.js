@@ -283,7 +283,31 @@ document.getElementById("publish-data").addEventListener("click", async event =>
     };
 
     setPublishStatus("pending", "Saving latest content to Firebase…");
-    await withTimeout(set(ref(db, "publicContent"), publicContent), "Firebase publish");
+    let saved = false;
+    let saveError = null;
+
+    // Fast HTTPS REST write with admin ID token (bypasses WebSocket connection stalls or socket hangs)
+    try {
+      const token = await user.getIdToken();
+      const res = await fetch(`${firebaseConfig.databaseURL}/publicContent.json?auth=${encodeURIComponent(token)}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(publicContent)
+      });
+      if (res.ok) {
+        saved = true;
+      } else {
+        const errJson = await res.json().catch(() => ({}));
+        saveError = new Error((errJson && errJson.error) || ("Database error " + res.status));
+      }
+    } catch (restErr) {
+      console.warn("REST publish channel note, falling back to realtime SDK:", restErr);
+    }
+
+    if (!saved) {
+      if (saveError) console.warn("Trying realtime channel after REST note:", saveError);
+      await withTimeout(set(ref(db, "publicContent"), publicContent), "Firebase publish", 20000);
+    }
     setBanner("Published to the website database.", true);
     setPublishStatus("success", "Successfully published to the website database. Changes are now live on the main website!");
     try {
