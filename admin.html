@@ -113,9 +113,54 @@
           <div class="field"><label for="cta-title">Contact call-to-action</label><input id="cta-title" name="ctaTitle"></div>
           <div class="field full"><label for="cta-copy">Contact description</label><textarea id="cta-copy" name="ctaCopy"></textarea></div>
         </div>
-        <div class="panel-head" style="margin-top:22px"><h2>Public impact figures</h2></div>
+        <div class="panel-head" style="margin-top:24px"><h2>Homepage section visibility</h2></div>
+        <p class="help" style="margin-bottom:12px">Control which sections are displayed or hidden on the public homepage.</p>
         <div class="form-grid">
-          <div class="field"><label id="impact-visible-label">Show impact figures on website</label><input id="impact-visible" name="impactVisible" type="hidden" value="true"><button class="switch" id="impact-visible-toggle" type="button" role="switch" aria-checked="true" aria-labelledby="impact-visible-label"><span class="switch-track"><span class="switch-thumb"></span></span><span class="switch-state">Shown on website</span></button></div>
+          <div class="field">
+            <label id="impact-visible-label">Our Impact In Numbers</label>
+            <input id="impact-visible" name="impactVisible" type="hidden" value="true">
+            <button class="switch" id="impact-visible-toggle" type="button" role="switch" aria-checked="true" aria-labelledby="impact-visible-label">
+              <span class="switch-track"><span class="switch-thumb"></span></span>
+              <span class="switch-state">Shown on website</span>
+            </button>
+          </div>
+          <div class="field">
+            <label id="products-visible-label">Our Products section</label>
+            <input id="products-visible" name="productsVisible" type="hidden" value="true">
+            <button class="switch" id="products-visible-toggle" type="button" role="switch" aria-checked="true" aria-labelledby="products-visible-label">
+              <span class="switch-track"><span class="switch-thumb"></span></span>
+              <span class="switch-state">Shown on website</span>
+            </button>
+          </div>
+          <div class="field">
+            <label id="approach-visible-label">Our Approach section</label>
+            <input id="approach-visible" name="approachVisible" type="hidden" value="true">
+            <button class="switch" id="approach-visible-toggle" type="button" role="switch" aria-checked="true" aria-labelledby="approach-visible-label">
+              <span class="switch-track"><span class="switch-thumb"></span></span>
+              <span class="switch-state">Shown on website</span>
+            </button>
+          </div>
+          <div class="field">
+            <label id="insights-visible-label">Insights section</label>
+            <input id="insights-visible" name="insightsVisible" type="hidden" value="true">
+            <button class="switch" id="insights-visible-toggle" type="button" role="switch" aria-checked="true" aria-labelledby="insights-visible-label">
+              <span class="switch-track"><span class="switch-thumb"></span></span>
+              <span class="switch-state">Shown on website</span>
+            </button>
+          </div>
+          <div class="field">
+            <label id="cta-visible-label">Contact / Partner CTA</label>
+            <input id="cta-visible" name="ctaVisible" type="hidden" value="true">
+            <button class="switch" id="cta-visible-toggle" type="button" role="switch" aria-checked="true" aria-labelledby="cta-visible-label">
+              <span class="switch-track"><span class="switch-thumb"></span></span>
+              <span class="switch-state">Shown on website</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-head" style="margin-top:24px"><h2>Public impact figures</h2></div>
+        <p class="help" style="margin-bottom:12px">Update the statistics shown in the Our Impact section (e.g., '75,000', '180 Million+', '190+', '4.7 Million+').</p>
+        <div class="form-grid">
           <div class="field"><label for="metric-downloads">Application downloads</label><input id="metric-downloads" name="downloads"></div>
           <div class="field"><label for="metric-users">Daily active users</label><input id="metric-users" name="users"></div>
           <div class="field"><label for="metric-countries">Countries reached</label><input id="metric-countries" name="countries"></div>
@@ -317,7 +362,7 @@
   </main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="admin-ui.js" defer></script>
-<script type="module" src="admin-firebase.js?v=0a9f499"></script>
+<script src="admin-ui.js?v=20261116b" defer></script>
+<script type="module" src="admin-firebase.js?v=20261116b"></script>
 </body>
 </html>
