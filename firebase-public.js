@@ -53,6 +53,7 @@ if (!firebaseReady) {
 
     onValue(ref(db, "publicContent"), snapshot => {
       if (snapshot.exists() && typeof window.IMAANIX_APPLY_PUBLIC === "function") {
+        try { localStorage.setItem("imaanix_public_content_v1", JSON.stringify(snapshot.val())); } catch (e) {}
         window.IMAANIX_APPLY_PUBLIC(snapshot.val());
       }
     }, error => {

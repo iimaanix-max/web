@@ -311,6 +311,7 @@ document.getElementById("publish-data").addEventListener("click", async event =>
     setBanner("Published to the website database.", true);
     setPublishStatus("success", "Successfully published to the website database. Changes are now live on the main website!");
     try {
+      localStorage.setItem('imaanix_public_content_v1', JSON.stringify(publicContent));
       window.IMAANIX_ADMIN_IMPORT(publicContent);
     } catch (e) {
       console.warn("Local preview refresh note:", e);
